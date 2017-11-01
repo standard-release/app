@@ -33,8 +33,8 @@
     "simple-get": "2.7.0"
   },
   "devDependencies": {
-    "hela": "*",
-    "hela-config-tunnckocore": "*",
+    "hela": "1.3.14",
+    "hela-config-tunnckocore": "2.0.20",
     "localtunnel": "1.8.3",
     "mukla": "0.4.9",
     "nodemon": "1.12.1"
