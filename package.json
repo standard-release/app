@@ -1,0 +1,71 @@
+{
+  "name": "sr-app",
+  "version": "0.0.0-semantic-release",
+  "description": "testing probot framework for semantic-release as Github App",
+  "repository": "tunnckoCore/sr-app",
+  "author": "Charlike Mike Reagent (https://i.am.charlike.online)",
+  "nspId": "todo",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.esm.js",
+  "scripts": {
+    "start": "probot run ./index.js",
+    "test": "yarn start test",
+    "precommit": "yarn start precommit",
+    "commit": "yarn start commit",
+    "prepublishOnly": "yarn start protect"
+  },
+  "license": "Apache-2.0",
+  "licenseStart": 2017,
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5",
+    "yarn": ">=1"
+  },
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "dedent": "0.7.0",
+    "delay": "2.0.0",
+    "p-map-series": "1.0.0",
+    "probot": "3.0.0",
+    "semver": "5.4.1",
+    "simple-get": "2.7.0"
+  },
+  "devDependencies": {
+    "hela": "*",
+    "hela-config-tunnckocore": "*",
+    "localtunnel": "1.8.3",
+    "mukla": "0.4.9",
+    "nodemon": "1.12.1"
+  },
+  "keywords": [
+    "automation"
+  ],
+  "verb": {
+    "run": true,
+    "toc": {
+      "render": true,
+      "method": "preWrite",
+      "maxdepth": 3
+    },
+    "layout": "empty",
+    "tasks": [
+      "readme"
+    ],
+    "related": {
+      "list": [
+        "dush",
+        "p-map-series",
+        "execa",
+        "hela",
+        "mri"
+      ],
+      "highlight": "hela"
+    },
+    "lint": {
+      "reflinks": true
+    },
+    "reflinks": []
+  }
+}

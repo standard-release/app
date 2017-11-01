@@ -1,0 +1,24 @@
+{
+  "projectName": "sr-app",
+  "projectOwner": "tunnckoCore",
+  "files": [
+    "CONTRIBUTORS.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "olstenlarck",
+      "name": "Charlike Mike Reagent",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/5038030?v=4",
+      "profile": "https://charlike.online",
+      "contributions": [
+        "question",
+        "code",
+        "doc",
+        "review",
+        "test"
+      ]
+    }
+  ]
+}
