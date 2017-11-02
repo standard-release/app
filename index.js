@@ -14,11 +14,12 @@ const yaml = require('js-yaml');
 const mustache = require('mustache');
 
 const defaultConfig = {
+  npmRegistry: 'https://registry.npmjs.org',
   majorHeading: ':scream: BREAKING CHANGES :bangbang:',
   minorHeading: ':tada: New Features',
   patchHeading: ':bug: Bug Fixes',
   releaseTemplate: dedent`
-  ## [{{nextVersion}}](https://github.com/{{repository}}/compare/v{{currentVersion}}...v{{nextVersion}}) ({{date}})
+  ## [v{{nextVersion}}]({{compareLink}}) ({{date}})
 
   ### {{commit.heading}}
   - {{#if commit.scope !== '*'}}**{{commit.scope}}:** {{/if}}{{commit.subject}} ({{commit.anchor}})
@@ -228,7 +229,14 @@ async function renderTemplate (context, config, opts) {
 
   const repository = context.payload.repository.full_name;
   const [date] = context.payload.head_commit.timestamp.split('T');
-  const locals = Object.assign({}, config.locals, opts, { date, repository });
+  const { currentVersion: prev, nextVersion: next } = opts;
+  const compareLink = `https://github.com/${repository}/compare/v${prev}}...v${next}}`;
+
+  const locals = Object.assign({}, config.locals, opts, {
+    date,
+    repository,
+    compareLink,
+  });
 
   return mustache.render(template, locals);
 }
