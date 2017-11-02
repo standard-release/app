@@ -10,9 +10,6 @@ const request = require('simple-get');
 const semver = require('semver');
 const dedent = require('dedent');
 
-function encodeBase64 (string) {
-  return Buffer.from(string, 'utf8').toString('base64');
-}
 function decodeBase64 (base64) {
   return Buffer.from(base64, 'base64').toString('utf8');
 }
@@ -25,48 +22,7 @@ const requestConcat = (...args) =>
     });
   });
 
-const readFile = (fp) => util.promisify(fs.readFile)(fp, 'utf8');
-const writeFile = util.promisify(fs.writeFile);
-
 module.exports = (robot) => {
-  const app = robot.route('/probot-test-app');
-
-  app.get('/hi', async (req, res) => {
-    res.end('Hello World!');
-  });
-
-  app.get('/auth/:username/:password/:token', async (req, res) => {
-    const hash = encodeBase64(`${req.params.username}:${req.params.password}`);
-
-    const opts = {
-      method: 'POST',
-      url: 'https://registry.npmjs.org/-/npm/v1/tokens',
-      body: {
-        password: req.params.password,
-        readonly: false,
-      },
-      headers: {
-        authorization: `Basic ${hash}`,
-      },
-      json: true,
-    };
-
-    const data = await requestConcat(opts);
-
-    await writeFile(
-      './__temp-storage.json',
-      JSON.stringify({
-        token: data.token,
-        base64: hash,
-        basic: `Basic ${hash}`,
-        username: req.params.username,
-        password: req.params.password,
-      })
-    );
-
-    res.send('Done! :)');
-  });
-
   let releasePublished = false;
 
   robot.on('push', async ({ github, payload }) => {
@@ -78,6 +34,8 @@ module.exports = (robot) => {
     const passed = [];
     const pending = [];
 
+    // set check here: if head_commit.message.startsWith('chore(release)'),
+    // then just not call the `recursion`, we just won't continue forward.
     recursion({ owner, repo, ref });
 
     /**
@@ -164,6 +122,8 @@ module.exports = (robot) => {
 
       const tagName = `v${nextVersion}`;
       const [date] = payload.head_commit.timestamp.split('T');
+
+      // allow custom template through `.github/config.yml` for example
       const releaseBody = dedent`## [${nextVersion}](https://github.com/${payload
         .repository.full_name}/compare/v${currentVersion}...v${nextVersion}) (${date})
 
@@ -182,10 +142,8 @@ module.exports = (robot) => {
         prerelease: false,
       });
 
-      await writeFile(`./__${name}-package.json`, JSON.stringify(PKGJSON));
+      // await writeFile(`./__${name}-package.json`, JSON.stringify(PKGJSON));
 
-      // from here we should trigger Circle/Travis CI build, programmatically
-      // which will expose special ENVs.
       console.log('service job is done!!!', tagName, headingName);
     }
   });
