@@ -136,7 +136,7 @@ async function shouldRelease (context, config) {
  */
 async function createRelease (context, config, commit) {
   const { currentVersion, nextVersion } = await getVersions(context, config, commit)
-  const { owner, repo } = utils.getRepo(context, { path: 'package.json' })
+  const { owner, repo } = utils.getRepo(context)
 
   const options = {
     currentVersion,
