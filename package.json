@@ -5,10 +5,9 @@
   "repository": "tunnckoCore/sr-app",
   "author": "Charlike Mike Reagent (https://i.am.charlike.online)",
   "nspId": "todo",
-  "main": "./dist/index.cjs.js",
-  "module": "./dist/index.esm.js",
+  "main": "./src/index.js",
   "scripts": {
-    "start": "probot run ./index.js",
+    "start": "probot run ./src/index.js",
     "test": "yarn start test",
     "precommit": "yarn start precommit",
     "commit": "yarn start commit",
@@ -17,12 +16,12 @@
   "license": "Apache-2.0",
   "licenseStart": 2017,
   "engines": {
-    "node": ">=8",
+    "node": ">=8.9",
     "npm": ">=5",
     "yarn": ">=1"
   },
   "files": [
-    "dist/"
+    "src/"
   ],
   "dependencies": {
     "dedent": "0.7.0",
