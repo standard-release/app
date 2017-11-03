@@ -3298,10 +3298,6 @@ mukla@0.4.9:
     stacktrace-metadata "^2.0.1"
     success-symbol "^0.1.0"
 
-mustache@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/mustache/-/mustache-2.3.0.tgz#4028f7778b17708a489930a6e52ac3bca0da41d0"
-
 mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
@@ -3823,9 +3819,9 @@ private@^0.1.7:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/private/-/private-0.1.8.tgz#2381edb3689f7a53d653190060fcf822d2f368ff"
 
-probot@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/probot/-/probot-3.0.0.tgz#aee3f5877bbd7acd006ab2709c58cbda9114e226"
+probot@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/probot/-/probot-3.0.2.tgz#449b8d70c8d1c4b6f3cc3b60e466c5e4fbdc03a1"
   dependencies:
     bottleneck "^1.16.0"
     bunyan "^1.8.12"
