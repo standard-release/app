@@ -2,7 +2,7 @@
   "name": "sr-app",
   "version": "0.0.0-semantic-release",
   "description": "testing probot framework for semantic-release as Github App",
-  "repository": "tunnckoCore/sr-app",
+  "repository": "tunnckoCore/semantic-release-app",
   "author": "Charlike Mike Reagent (https://i.am.charlike.online)",
   "nspId": "todo",
   "main": "./src/index.js",
