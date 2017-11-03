@@ -41,8 +41,8 @@ module.exports = (robot) => {
  */
 function detectChange (context, config) {
   const head = context.payload.head_commit
-  const parts = /^(\w+)\((.+)\): (.+)/.exec(head.msg)
-  const isBreaking = head.msg.includes('BREAKING CHANGE')
+  const parts = /^(\w+)\((.+)\): (.+)/.exec(head.message)
+  const isBreaking = head.message.includes('BREAKING CHANGE')
 
   const repository = context.payload.repository.full_name
   const link = `https://github.com/${repository}/commit/${head.id}`
