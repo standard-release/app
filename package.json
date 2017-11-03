@@ -30,7 +30,7 @@
     "handlebars": "4.0.11",
     "js-yaml": "3.10.0",
     "p-map-series": "1.0.0",
-    "probot": "3.0.0",
+    "probot": "3.0.2",
     "semver": "5.4.1",
     "simple-get": "2.7.0"
   },
