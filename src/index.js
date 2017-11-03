@@ -29,7 +29,7 @@ module.exports = (robot) => {
       const passed = []
       const pending = []
 
-      releasePublished = release(context, config, { passed, pending })
+      releasePublished = await release(context, config, { passed, pending })
     }
   })
 }
@@ -118,7 +118,7 @@ async function release (context, config, cache) {
  * @param {*} context
  * @param {*} config
  */
-async function shouldRelease (context, config) {
+function shouldRelease (context, config) {
   const commit = detectChange(context, config)
 
   if (!commit.increment) {
@@ -201,7 +201,7 @@ async function renderTemplate (context, config, opts) {
   const repository = context.payload.repository.full_name
   const [date] = context.payload.head_commit.timestamp.split('T')
   const { currentVersion: prev, nextVersion: next } = opts
-  const compareLink = `https://github.com/${repository}/compare/v${prev}}...v${next}}`
+  const compareLink = `https://github.com/${repository}/compare/v${prev}...v${next}`
 
   const locals = Object.assign({}, config.locals, opts, {
     date,
