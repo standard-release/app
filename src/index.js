@@ -6,7 +6,7 @@
 const path = require('path')
 const delay = require('delay')
 const semver = require('semver')
-const mustache = require('mustache')
+const handlebars = require('handlebars')
 const getConfig = require('./lib/config.js')
 const utils = require('./lib/utils.js')
 
@@ -41,7 +41,7 @@ module.exports = (robot) => {
  */
 function detectChange (context, config) {
   const head = context.payload.head_commit
-  const parts = /^(\w+)\((.+)\): (.+)/.exec(head.message)
+  const parts = /^(\w+)(\(.+\))?: (.+)/.exec(head.message)
   const isBreaking = head.message.includes('BREAKING CHANGE')
 
   const repository = context.payload.repository.full_name
@@ -50,7 +50,7 @@ function detectChange (context, config) {
   const lines = parts[3].split('\n')
   const commit = {
     type,
-    scope: parts[2],
+    scope: parts[2] ? parts[2].replace(/^\(/, '').replace(/\)$/, '') : null,
     subject: lines[0],
     body: lines.slice(1).join('\n'),
     anchor: `[${head.id.slice(0, 7)}](${link})`,
@@ -209,5 +209,5 @@ async function renderTemplate (context, config, opts) {
     compareLink,
   })
 
-  return mustache.render(template, locals)
+  return handlebars.compile(template)(locals)
 }

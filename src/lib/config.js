@@ -16,9 +16,9 @@ const defaultConfig = {
   ## [v{{nextVersion}}]({{compareLink}}) ({{date}})
 
   ### {{commit.heading}}
-  - {{#if commit.scope !== '*'}}**{{commit.scope}}:** {{/if}}{{commit.subject}} ({{commit.anchor}})
+  - {{#if commit.scope}}**{{commit.scope}}:** {{/if}}{{commit.subject}} ({{commit.anchor}})
 
-  {{#if commit.body.length > 0}}
+  {{#if commit.body.length}}
     {{commit.body}}
   {{/if}}
   `,
