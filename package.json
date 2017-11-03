@@ -7,12 +7,12 @@
   "nspId": "todo",
   "main": "./src/index.js",
   "scripts": {
-    "dev": "probot run ./src/index.js",
-    "start": "hela",
-    "test": "yarn start test",
-    "precommit": "yarn start precommit",
-    "commit": "yarn start commit",
-    "prepublishOnly": "yarn start protect"
+    "start": "probot run ./src/index.js",
+    "hela": "hela",
+    "test": "yarn hela test",
+    "precommit": "yarn hela precommit",
+    "commit": "yarn hela commit",
+    "prepublishOnly": "yarn hela protect"
   },
   "license": "Apache-2.0",
   "licenseStart": 2017,
