@@ -29,13 +29,10 @@ const defaultConfig = {
  * @param {*} context
  */
 module.exports = async function getConfig (context) {
-  const options = utils.getRepo(context, { path: '.github/semantic-release.yml' })
-  let response = null
   let config = null
 
   try {
-    response = await context.github.repos.getContent(options)
-    config = yaml.safeLoad(utils.decodeBase64(response.data.content))
+    config = await context.config('.github/semantic-release.yml', defaultConfig)
   } catch (err) {
     if (err.code !== 404) {
       throw err
