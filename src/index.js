@@ -17,18 +17,23 @@ const utils = require('./lib/utils.js')
 module.exports = (robot) => {
   let releasePublished = false
 
+  // robot.on('issues.opened', async (context) => {
+  //   const tags = await context.github.repos.getTags({
+  //     owner: 'singapore',
+  //     repo: 'renovate',
+  //   })
+  //   console.log(tags.data.length, tags.data[0])
+  // })
+
   robot.on('push', async (context) => {
     if (releasePublished === true) return
-
     const config = await getConfig(context)
     const commit = detectChange(context, config)
-
     // Check if commit needs GitHub Release,
     // otherwise the bot should not do anything
     if (commit.increment) {
       const passed = []
       const pending = []
-
       releasePublished = await release(context, config, { passed, pending })
     }
   })
@@ -159,6 +164,8 @@ async function createRelease (context, config, commit) {
     prerelease: false,
   })
 
+  console.log('done')
+
   return true
 }
 
@@ -169,18 +176,14 @@ async function createRelease (context, config, commit) {
  * @param {*} commit
  */
 async function getVersions (context, config, commit) {
-  const repoCtx = utils.getRepo(context, { path: 'package.json' })
-  const response = await context.github.repos.getContent(repoCtx)
+  const lastTag = (await context.github.repos.getTags(utils.getRepo(context))).data[0]
 
-  // parse package.json from the repo, to get the name
-  const { name } = JSON.parse(utils.decodeBase64(response.data.content))
+  // TODO: Consider what to do when there are no tags. Fallback to npm?
+  const currentVersion = lastTag.name.slice(1)
 
-  const npmUrl = `${config.npmRegistry.replace(/\/$/, '')}/${name}`
-  const pkgJson = JSON.parse(await utils.request(npmUrl))
+  console.log('tag commit', lastTag.commit.url)
 
-  const currentVersion = pkgJson['dist-tags'].latest
   const nextVersion = semver.inc(currentVersion, commit.increment)
-
   return { currentVersion, nextVersion }
 }
 
