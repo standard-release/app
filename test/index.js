@@ -3,9 +3,9 @@
  * @license Apache-2.0
  */
 
-const test = require('mukla');
-const fn = require('../src/index.js');
+const test = require('mukla')
+const fn = require('../src/index.js')
 
 test('foo bar', () => {
-  test.ok(fn);
-});
+  test.ok(fn)
+})

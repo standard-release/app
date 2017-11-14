@@ -4,8 +4,6 @@
  */
 
 const dedent = require('dedent')
-const yaml = require('js-yaml')
-const utils = require('./utils.js')
 
 const defaultConfig = {
   npmRegistry: 'https://registry.npmjs.org',

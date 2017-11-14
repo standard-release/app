@@ -7,7 +7,7 @@ const path = require('path')
 const delay = require('delay')
 const semver = require('semver')
 const handlebars = require('handlebars')
-const parseCommitMessage = require('parse-commit-message')
+const detectNext = require('detect-next-version')
 const getConfig = require('./lib/config.js')
 const utils = require('./lib/utils.js')
 
@@ -30,6 +30,8 @@ module.exports = (robot) => {
 
   robot.on('push', async (context) => {
     if (releasePublished === true) return
+    if (context.payload.ref !== 'refs/heads/master') return
+
     const config = await getConfig(context)
     const commit = detectChange(context, config)
     // Check if commit needs GitHub Release,
@@ -49,7 +51,7 @@ module.exports = (robot) => {
  */
 function detectChange (context, config) {
   const head = context.payload.head_commit
-  const rawCommit = parseCommitMessage(head.message, incrementMapper)
+  const rawCommit = detectNext(head.message, true)
 
   const repository = context.payload.repository.full_name
   const link = `https://github.com/${repository}/commit/${head.id}`
@@ -71,31 +73,6 @@ function detectChange (context, config) {
   }
 
   return commit
-}
-
-function incrementMapper (commit) {
-  const isBreaking = isBreakingChange(commit)
-  let increment = null
-
-  if (/fix|bugfix|patch/.test(commit.type)) {
-    increment = 'patch'
-  }
-  if (/feat|feature|minor/.test(commit.type)) {
-    increment = 'minor'
-  }
-  if (/break|breaking|major/.test(commit.type) || isBreaking) {
-    increment = 'major'
-  }
-
-  return Object.assign({}, commit, { increment, isBreaking })
-}
-
-function isBreakingChange ({ subject, body, footer }) {
-  body = body || ''
-  footer = footer || ''
-
-  const re = 'BREAKING CHANGE:'
-  return subject.includes(re) || body.includes(re) || footer.includes(re)
 }
 
 /**
