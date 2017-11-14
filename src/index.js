@@ -92,15 +92,19 @@ async function release (context, config, cache) {
   // Example: if you all checks ends in 1min,
   // only 6 requests are made, so don't worry.
   // The 6req/min is pretty pretty low amount when you have 5000req/hour.
-  await delay(5000) // todo
+  await delay(8000)
 
   const statuses = await context.github.repos.getStatuses(utils.getRepo(context))
 
   statuses.data.forEach((x) => {
-    if (x.state === 'pending' && !cache.pending.includes(x.context)) {
+    const isCIStatus = /(?:travis-ci|circleci)/.test(x.context)
+    const isPending = x.state === 'pending'
+    const isPassing = x.state === 'success'
+
+    if (isPending && isCIStatus && !cache.pending.includes(x.context)) {
       cache.pending.push(x.context)
     }
-    if (x.state === 'success' && !cache.passed.includes(x.context)) {
+    if (isPassing && isCIStatus && !cache.passed.includes(x.context)) {
       cache.passed.push(x.context)
     }
   })
@@ -117,6 +121,7 @@ function shouldRelease (context, config) {
   const commit = detectChange(context, config)
 
   if (!commit.increment) {
+    console.log('no creating GitHub release')
     return false
   }
 
