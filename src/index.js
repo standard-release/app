@@ -7,8 +7,11 @@ const path = require('path')
 const delay = require('delay')
 const semver = require('semver')
 const handlebars = require('handlebars')
+const parseCommitMessage = require('parse-commit-message')
 const getConfig = require('./lib/config.js')
 const utils = require('./lib/utils.js')
+
+/* eslint-disable no-param-reassign */
 
 /**
  *
@@ -46,43 +49,53 @@ module.exports = (robot) => {
  */
 function detectChange (context, config) {
   const head = context.payload.head_commit
-  const parts = /^(\w+)(\(.+\))?: (.+)/.exec(head.message)
-  const isBreaking = head.message.includes('BREAKING CHANGE')
+  const rawCommit = parseCommitMessage(head.message, incrementMapper)
 
   const repository = context.payload.repository.full_name
   const link = `https://github.com/${repository}/commit/${head.id}`
-  const type = parts[1]
-  const lines = parts[3].split('\n')
-  const commit = {
-    type,
-    scope: parts[2] ? parts[2].replace(/^\(/, '').replace(/\)$/, '') : null,
-    subject: lines[0],
-    body: lines.slice(1).join('\n'),
+  const commit = Object.assign(rawCommit, {
     anchor: `[${head.id.slice(0, 7)}](${link})`,
+    message: head.message,
     head,
     link,
-  }
+  })
 
-  if (/break|breaking|major/.test(type) || isBreaking) {
-    return Object.assign(commit, {
-      increment: 'major',
-      heading: config.majorHeading,
-    })
+  if (commit.increment === 'major' && commit.isBreaking) {
+    return Object.assign(commit, { heading: config.majorHeading })
   }
-  if (/fix|bugfix|patch/.test(type)) {
-    return Object.assign(commit, {
-      increment: 'patch',
-      heading: config.patchHeading,
-    })
+  if (commit.increment === 'patch') {
+    return Object.assign(commit, { heading: config.patchHeading })
   }
-  if (/feat|feature|minor/.test(type)) {
-    return Object.assign(commit, {
-      increment: 'minor',
-      heading: config.minorHeading,
-    })
+  if (commit.increment === 'minor') {
+    return Object.assign(commit, { heading: config.minorHeading })
   }
 
   return commit
+}
+
+function incrementMapper (commit) {
+  const isBreaking = isBreakingChange(commit)
+  let increment = null
+
+  if (/fix|bugfix|patch/.test(commit.type)) {
+    increment = 'patch'
+  }
+  if (/feat|feature|minor/.test(commit.type)) {
+    increment = 'minor'
+  }
+  if (/break|breaking|major/.test(commit.type) || isBreaking) {
+    increment = 'major'
+  }
+
+  return Object.assign({}, commit, { increment, isBreaking })
+}
+
+function isBreakingChange ({ subject, body, footer }) {
+  body = body || ''
+  footer = footer || ''
+
+  const re = 'BREAKING CHANGE:'
+  return subject.includes(re) || body.includes(re) || footer.includes(re)
 }
 
 /**
