@@ -1114,17 +1114,17 @@ detect-libc@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.2.tgz#71ad5d204bf17a6a6ca8f450c61454066ef461e1"
 
-detect-next-version@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/detect-next-version/-/detect-next-version-1.0.0.tgz#aa87d790a8e11fba360476a7bfcd185bc257f673"
+detect-next-version@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/detect-next-version/-/detect-next-version-1.1.2.tgz#f7736888e689a4250c3bc0a924cd0c332e27a57c"
   dependencies:
-    parse-commit-message "0.1.1"
+    parse-commit-message "0.2.0"
 
-detect-next-version@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/detect-next-version/-/detect-next-version-1.0.2.tgz#93eb24d0d10e6f6fc53a7f1caece2e50227e044b"
+detect-next-version@1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/detect-next-version/-/detect-next-version-1.1.3.tgz#0230d64763b6cf14cc2d7aa90292f2ef43db8b27"
   dependencies:
-    parse-commit-message "0.1.2"
+    parse-commit-message "0.2.0"
 
 dezalgo@^1.0.3:
   version "1.0.3"
@@ -1848,6 +1848,12 @@ get-installed-path@^4.0.5:
   dependencies:
     global-modules "1.0.0"
 
+get-pkg@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/get-pkg/-/get-pkg-0.3.0.tgz#79d9d89211eaa4e2e54000ad25ef9eb3635f16e7"
+  dependencies:
+    min-request "^1.4.1"
+
 get-stdin@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-5.0.1.tgz#122e161591e21ff4c52530305693f20e6393a398"
@@ -2078,19 +2084,17 @@ hawk@~6.0.2:
     hoek "4.x.x"
     sntp "2.x.x"
 
-hela-config-tunnckocore@2.0.37:
-  version "2.0.37"
-  resolved "https://registry.yarnpkg.com/hela-config-tunnckocore/-/hela-config-tunnckocore-2.0.37.tgz#0f87a538a4c3e3257e6b2b10f20c3a56295e3817"
+hela-config-tunnckocore@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/hela-config-tunnckocore/-/hela-config-tunnckocore-2.1.1.tgz#ddccd3211b41206c0308e536177272387aa6054e"
   dependencies:
     all-contributors-cli "4.8.1"
-    detect-next-version "1.0.0"
-    eslint "4.11.0"
-    eslint-config-tunnckocore "0.2.0"
+    detect-next-version "1.1.2"
+    get-pkg "0.3.0"
     gitcommit "0.2.4"
     hela "1.3.14"
     is-ci "1.0.10"
     nyc "11.3.0"
-    package-json "4.0.1"
     parse-git-log "0.2.1"
     prettier "1.8.2"
     prettier-eslint "8.2.1"
@@ -3268,6 +3272,10 @@ mimic-response@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/mimic-response/-/mimic-response-1.0.0.tgz#df3d3652a73fded6b9b0b24146e6fd052353458e"
 
+min-request@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/min-request/-/min-request-1.4.1.tgz#17634cfb433600d3db3800c697bb696eef8589d2"
+
 "minimatch@2 || 3", minimatch@^3.0.0, minimatch@^3.0.2, minimatch@^3.0.3, minimatch@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
@@ -3627,7 +3635,7 @@ p-reduce@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-reduce/-/p-reduce-1.0.0.tgz#18c2b0dd936a4690a529f8231f58a0fdb6a47dfa"
 
-package-json@4.0.1, package-json@^4.0.0:
+package-json@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/package-json/-/package-json-4.0.1.tgz#8869a0401253661c4c4ca3da6c2121ed555f5eed"
   dependencies:
@@ -3636,13 +3644,9 @@ package-json@4.0.1, package-json@^4.0.0:
     registry-url "^3.0.3"
     semver "^5.1.0"
 
-parse-commit-message@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/parse-commit-message/-/parse-commit-message-0.1.1.tgz#cfbe9e84aa5f4cdbe2bfc559f7829337d06f78c4"
-
-parse-commit-message@0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/parse-commit-message/-/parse-commit-message-0.1.2.tgz#347902b1c12d7ff2a9fb6ae9ba9e584f577ae0f1"
+parse-commit-message@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/parse-commit-message/-/parse-commit-message-0.2.0.tgz#1a5fe358999ad7cd1f3f0e0135622342681ccce4"
 
 parse-git-log@0.2.1:
   version "0.2.1"
