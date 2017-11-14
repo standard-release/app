@@ -97,7 +97,7 @@ async function release (context, config, cache) {
   const statuses = await context.github.repos.getStatuses(utils.getRepo(context))
 
   statuses.data.forEach((x) => {
-    const isCIStatus = /(?:travis-ci|circleci)/.test(x.context)
+    const isCIStatus = /(?:travis|circleci)/.test(x.context)
     const isPending = x.state === 'pending'
     const isPassing = x.state === 'success'
 
