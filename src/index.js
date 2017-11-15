@@ -56,10 +56,11 @@ function detectChange (context, config) {
   const head = context.payload.head_commit
   const rawCommit = detectNext(head.message, true)
 
+  const shortSHA = head.id.slice(0, 7)
   const repository = context.payload.repository.full_name
-  const link = `https://github.com/${repository}/commit/${head.id}`
+  const link = `https://github.com/${repository}/commit/${shortSHA}`
   const commit = Object.assign(rawCommit, {
-    anchor: `[${head.id.slice(0, 7)}](${link})`,
+    anchor: `[${shortSHA}](${link})`,
     message: head.message,
     head,
     link,
@@ -211,5 +212,6 @@ async function renderTemplate (context, config, opts) {
     compareLink,
   })
 
+  console.log('cc5', locals)
   return handlebars.compile(template)(locals)
 }
