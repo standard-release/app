@@ -18,7 +18,7 @@ const utils = require('./lib/utils.js')
  * @param {*} robot
  */
 module.exports = (robot) => {
-  let releasePublished = false
+  // let releasePublished = false
 
   // robot.on('issues.opened', async (context) => {
   //   const tags = await context.github.repos.getTags({
@@ -29,7 +29,9 @@ module.exports = (robot) => {
   // })
 
   robot.on('push', async (context) => {
-    if (releasePublished === true) return
+    // console.log('cc1')
+    // if (releasePublished === true) return
+    console.log('cc2')
     if (context.payload.ref !== 'refs/heads/master') return
 
     const config = await getConfig(context)
@@ -37,9 +39,10 @@ module.exports = (robot) => {
     // Check if commit needs GitHub Release,
     // otherwise the bot should not do anything
     if (commit.increment) {
+      console.log('cc3')
       const passed = []
       const pending = []
-      releasePublished = await release(context, config, { passed, pending })
+      await release(context, config, { passed, pending })
     }
   })
 }
@@ -61,6 +64,7 @@ function detectChange (context, config) {
     head,
     link,
   })
+  console.log('cc4', commit)
 
   if (commit.increment === 'major' && commit.isBreaking) {
     return Object.assign(commit, { heading: config.majorHeading })
