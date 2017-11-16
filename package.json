@@ -21,14 +21,6 @@
     "npm": ">=5",
     "yarn": ">=1"
   },
-  "now": {
-    "env": {
-      "APP_ID": "@semantic-app-id",
-      "NODE_ENV": "production",
-      "PRIVATE_KEY": "@semantic-private-key",
-      "WEBHOOK_SECRET": "@semantic-webhook-secret"
-    }
-  },
   "files": [
     "src/"
   ],

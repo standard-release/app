@@ -1,0 +1,10 @@
+{
+  "public": true,
+  "alias": "semantic-release-app",
+  "env": {
+    "APP_ID": "@semantic-app-id",
+    "NODE_ENV": "production",
+    "PRIVATE_KEY": "@semantic-private-key",
+    "WEBHOOK_SECRET": "@semantic-webhook-secret"
+  }
+}
