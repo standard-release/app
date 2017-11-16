@@ -195,13 +195,11 @@ async function renderTemplate (context, config, opts) {
   const [date] = context.payload.head_commit.timestamp.split('T')
   const { currentVersion: prev, nextVersion: next } = opts
   const compareLink = `https://github.com/${repository}/compare/v${prev}...v${next}`
-  const compareAnchor = '`v{{currentVersion}}...v{{nextVersion}}`'
 
   const locals = Object.assign({}, config.locals, opts, {
     date,
     repository,
     compareLink,
-    compareAnchor,
   })
 
   console.log('cc5', locals)

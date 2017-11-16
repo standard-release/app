@@ -20,7 +20,7 @@ const defaultConfig = {
     {{commit.body}}
   {{/if}}
 
-  [{{compareAnchor}}]({{compareLink}})
+  [\`v{{currentVersion}}...v{{nextVersion}}\`]({{compareLink}})
   `,
 }
 
