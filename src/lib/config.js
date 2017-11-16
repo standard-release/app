@@ -19,6 +19,8 @@ const defaultConfig = {
   {{#if commit.body.length}}
     {{commit.body}}
   {{/if}}
+
+  [{{compareAnchor}}]({{compareLink}})
   `,
 }
 

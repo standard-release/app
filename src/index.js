@@ -18,16 +18,6 @@ const utils = require('./lib/utils.js')
  * @param {*} robot
  */
 module.exports = (robot) => {
-  // let releasePublished = false
-
-  // robot.on('issues.opened', async (context) => {
-  //   const tags = await context.github.repos.getTags({
-  //     owner: 'singapore',
-  //     repo: 'renovate',
-  //   })
-  //   console.log(tags.data.length, tags.data[0])
-  // })
-
   robot.on('push', async (context) => {
     // console.log('cc1')
     // if (releasePublished === true) return
@@ -205,11 +195,13 @@ async function renderTemplate (context, config, opts) {
   const [date] = context.payload.head_commit.timestamp.split('T')
   const { currentVersion: prev, nextVersion: next } = opts
   const compareLink = `https://github.com/${repository}/compare/v${prev}...v${next}`
+  const compareAnchor = '`v{{currentVersion}}...v{{nextVersion}}`'
 
   const locals = Object.assign({}, config.locals, opts, {
     date,
     repository,
     compareLink,
+    compareAnchor,
   })
 
   console.log('cc5', locals)
