@@ -34,7 +34,6 @@ module.exports = (robot) => {
     if (!pkg) return;
 
     // Do we need such thing as "commits since last tag"?
-    console.log(context.payload.commits);
     const commits = context.payload.commits.map((commit) => {
       const cmt = parse(commit.message);
       cmt.sha = commit.sha;
@@ -44,8 +43,8 @@ module.exports = (robot) => {
     });
 
     const endpoint = (name) => `https://registry.npmjs.org/${name}`;
-    const pkgMeta = await detector(pkg.name, commits, { endpoint });
-
+    const pkgMeta = await detector(pkg.name, commits /* , { endpoint } */);
+    console.log(pkgMeta);
     // If no need for bump, then exit.
     if (!pkgMeta.increment) {
       robot.log('No need for release publishing');
