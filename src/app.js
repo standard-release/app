@@ -59,7 +59,7 @@ module.exports = (robot) => {
     await delay(10);
 
     let status = await getStatus(context);
-
+    console.log(status);
     if (status === 'success') {
       await createRelease(
         context,
@@ -107,12 +107,10 @@ async function getPkg(robot, context) {
   // for ensurance, sometimes.. js can be bad boy.
   if (!pkgData) return null;
 
-  robot.log(pkgData);
-
   let pkgJSON = null;
 
   try {
-    pkgJSON = JSON.parse(Buffer.from(pkgData.content, 'base64'));
+    pkgJSON = JSON.parse(Buffer.from(pkgData.data.content, 'base64'));
   } catch (err) {
     robot.log(err);
     return null;
