@@ -107,6 +107,8 @@ async function getPkg(robot, context) {
   // for ensurance, sometimes.. js can be bad boy.
   if (!pkgData) return null;
 
+  robot.log(pkgData);
+
   let pkgJSON = null;
 
   try {
