@@ -30,68 +30,60 @@ module.exports = (robot) => {
       return;
     }
 
-    const pkg = await getPkg(robot, context);
-    if (!pkg) return;
-
-    const result = await context.github.repos.getLatestRelease(context.repo());
-    const { data: commits } = await context.github.repos.getCommits(
-      context.repo({ since: result.data.created_at }),
-    );
-
-    // Do we need such thing as "commits since last tag"?
-    const allCommitsSinceLastTag = commits.map((commit) => {
-      const cmt = parse(commit.message);
-      cmt.sha = commit.sha;
-      cmt.author = context.payload.author;
-      cmt.repository = context.payload.repository.full_name;
-      return cmt;
-    });
-
-    // const endpoint = (name) => `https://registry.npmjs.org/${name}`;
-    const pkgMeta = await detector(pkg.name, allCommitsSinceLastTag);
+    const info = await getPkgMeta(context, robot);
 
     // If no need for bump, then exit.
-    if (!pkgMeta.increment) {
+    if (!info || (info && !info.increment)) {
       robot.log('No need for release publishing');
       return;
     }
 
     // pkgMeta is like `{ lastVersion, nextVersion, pkg, increment }`
-    robot.log(pkgMeta);
+    robot.log(info);
 
     // Delay for 10 seconds, then continue.
     // Creating release should not be instant, we should wait
     // until statuses/checks are ready first.
     await delay(10);
 
-    let status = await getStatus(context);
-    robot.log(status);
+    const status = await ensureStatus(context, { info, config });
 
+    // It's always a 'success' or `true`, if it is true,
+    // then it already created the release from within `ensureStatus`,
+    // Because there it checks recursively every 30 seconds, until success or failure.
+    // If it is failure, it will throw, so we are safe.
     if (status === 'success') {
-      await createRelease(context, context.repo({ pkgMeta }));
-    } else {
-      // Recheck every 30 seconds.
-      // CircleCI is pretty fast, but some builds may need more time.
-      // That time is configurable through `delay` option in the app config.
-      const interval = setInterval(async () => {
-        status = await getStatus(context);
-
-        if (status === 'success') {
-          clearInterval(interval);
-          await createRelease(context, context.repo({ pkgMeta }));
-
-          robot.log('Release created.');
-        } else {
-          robot.log(`Rechecking statuses after ${config.interval} seconds`);
-        }
-      }, config.interval * 1000);
+      robot.log(info);
+      await createRelease(context, context.repo({ info }));
     }
 
     // And we are done.
   });
 };
 
-async function getPkg(robot, context) {
+async function getPkgMeta(context, robot) {
+  const pkg = await getPkg(context, robot);
+  if (!pkg) return null;
+
+  const result = await context.github.repos.getLatestRelease(context.repo());
+  const { data: commits } = await context.github.repos.getCommits(
+    context.repo({ since: result.data.created_at }),
+  );
+
+  // Do we need such thing as "commits since last tag"?
+  const allCommitsSinceLastTag = commits.map((commit) => {
+    const cmt = parse(commit.message);
+    cmt.sha = commit.sha;
+    cmt.author = context.payload.author;
+    cmt.repository = context.payload.repository.full_name;
+    return cmt;
+  });
+
+  // const endpoint = (name) => `https://registry.npmjs.org/${name}`;
+  return detector(pkg.name, allCommitsSinceLastTag);
+}
+
+async function getPkg(context, robot) {
   let pkgData = null;
 
   try {
@@ -120,6 +112,24 @@ async function getPkg(robot, context) {
   return pkgJSON;
 }
 
+async function ensureStatus(context, { info, config }) {
+  const status = await getStatus(context);
+  if (status === null) {
+    throw new Error('No CI is detected on that repository.');
+  }
+
+  if (status === 'success') {
+    await createRelease(context, context.repo({ info }));
+    return true;
+  }
+  if (status === 'failure') {
+    throw new Error('The CI statuses are failing, not creating a release.');
+  }
+
+  await delay(config.interval);
+  return ensureStatus(context, { info, config });
+}
+
 async function getStatus(context) {
   const { data } = await context.github.repos.getCombinedStatusForRef(
     context.repo({ ref: context.payload.ref }),
@@ -134,21 +144,34 @@ async function getStatus(context) {
   // 2. data.state === failure, then we check if CIs are okey,
   // if they are okey, then we don't care about the other failing statuses
 
-  const ciSuccess = [];
+  const states = {
+    success: [],
+    failure: [],
+    pending: [],
+  };
 
   data.statuses.forEach((status) => {
-    if (isCI(status.context) && status.state === 'success') {
-      ciSuccess.push(status);
+    if (isCI(status.context)) {
+      states[status.state].push(status);
     }
   });
 
-  return ciSuccess.length > 0 ? 'success' : 'pending';
+  if (states.success.length > 0) {
+    return 'success';
+  }
+  if (states.failure.length > 0) {
+    return 'failure';
+  }
+  if (states.pending.length > 0) {
+    return 'pending';
+  }
+  return null;
 }
 
-async function createRelease(context, { owner, repo, pkgMeta }) {
+async function createRelease(context, { owner, repo, info }) {
   const [date] = context.payload.head_commit.timestamp.split('T');
-  const body = render(Object.assign({}, { owner, repo, date }, pkgMeta));
-  const tagName = `v${pkgMeta.nextVersion}`;
+  const body = render(Object.assign({}, { owner, repo, date }, info));
+  const tagName = `v${info.nextVersion}`;
 
   await context.github.repos.createRelease({
     owner,
