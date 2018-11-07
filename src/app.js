@@ -42,7 +42,7 @@ module.exports = (robot) => {
       return cmt;
     });
 
-    const endpoint = (name) => `https://registry.npmjs.org/${name}`;
+    // const endpoint = (name) => `https://registry.npmjs.org/${name}`;
     const pkgMeta = await detector(pkg.name, commits /* , { endpoint } */);
 
     // If no need for bump, then exit.
