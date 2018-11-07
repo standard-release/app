@@ -117,7 +117,7 @@ async function getPkg(robot, context) {
 
 async function getStatus(context) {
   const { data } = await context.github.repos.getCombinedStatusForRef(
-    context.repo({ ref: context.payload.head_commit }),
+    context.repo({ ref: context.payload.ref }),
   );
 
   if (data.state === 'success') {
