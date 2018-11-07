@@ -6,8 +6,5 @@
     "NODE_ENV": "production",
     "PRIVATE_KEY": "@tunnckocore-release-private-key",
     "WEBHOOK_SECRET": "@tunnckocore-release-webhook-secret"
-  },
-  "github": {
-    "autoAlias": true
   }
 }

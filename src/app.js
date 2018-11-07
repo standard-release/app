@@ -42,7 +42,9 @@ module.exports = (robot) => {
       return cmt;
     });
 
-    const pkgMeta = detector(pkg.name, commits);
+    robot.log(commits);
+    const pkgMeta = await detector(pkg.name, commits);
+    robot.log(pkgMeta);
 
     // If no need for bump, then exit.
     if (!pkgMeta.increment) {
@@ -59,7 +61,8 @@ module.exports = (robot) => {
     await delay(10);
 
     let status = await getStatus(context);
-    console.log(status);
+    robot.log(status);
+
     if (status === 'success') {
       await createRelease(
         context,
@@ -120,7 +123,7 @@ async function getPkg(robot, context) {
 }
 
 async function getStatus(context) {
-  const data = await context.github.repos.getCombinedStatusForRef(
+  const { data } = await context.github.repos.getCombinedStatusForRef(
     context.repo({ ref: context.payload.head }),
   );
 

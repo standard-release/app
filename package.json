@@ -11,7 +11,10 @@
     "precommit": "yarn run lint && yarn test",
     "commit": "yarn dry",
     "dry": "git add -A && git status --porcelain && gitcommit -sS",
-    "release": "node cli.js"
+    "release": "node cli.js",
+    "deploy:rm": "now rm -y @tunnckocore/release",
+    "deploy:now": "now && now alias",
+    "deploy": "(yarn deploy:rm && yarn deploy:now) || yarn deploy:now"
   },
   "engines": {
     "node": "^8.11.0 || >=10.13.0"
