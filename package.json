@@ -1,0 +1,76 @@
+{
+  "name": "@tunnckocore/release",
+  "description": "Release and publish a new project to NPM and GitHub, automatically. Following Conventional Commits specification and Semver. It provides GitHub App, similar to [semantic-release][], too.",
+  "license": "Apache-2.0",
+  "licenseStart": "2018",
+  "scripts": {
+    "start": "tunnckocore-scripts",
+    "extends": "@tunnckocore/config/scripts",
+    "docs": "tunnckocore-scripts docs",
+    "lint": "tunnckocore-scripts lint",
+    "test": "tunnckocore-scripts test",
+    "commit": "tunnckocore-scripts commit"
+  },
+  "engines": {
+    "node": "^8.11.0 || >=10.13.0"
+  },
+  "dependencies": {
+    "esm": "^3.0.84"
+  },
+  "devDependencies": {
+    "@tunnckocore/config": "^0.5.1",
+    "@tunnckocore/scripts": "^1.1.0",
+    "asia": "^0.19.7"
+  },
+  "files": [
+    "src",
+    "index.js"
+  ],
+  "main": "index.js",
+  "module": "src/index.js",
+  "typings": "src/index.d.ts",
+  "version": "0.0.0",
+  "repository": "tunnckoCoreLabs/release",
+  "homepage": "https://github.com/tunnckoCoreLabs/release",
+  "author": "Charlike Mike Reagent (https://tunnckocore.com)",
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "renovate": {
+    "extends": "tunnckocore"
+  },
+  "verb": {
+    "run": true,
+    "toc": {
+      "render": true,
+      "method": "preWrite",
+      "maxdepth": 4
+    },
+    "layout": "empty",
+    "tasks": [
+      "readme"
+    ],
+    "related": {
+      "list": [
+        "asia",
+        "charlike",
+        "docks",
+        "gitcommit",
+        "@tunnckocore/execa",
+        "@tunnckocore/package-json",
+        "@tunnckocore/create-project",
+        "@tunnckocore/update",
+        "@tunnckocore/config",
+        "@tunnckocore/scripts"
+      ]
+    },
+    "lint": {
+      "reflinks": true
+    },
+    "reflinks": [
+      "new-release",
+      "semantic-release"
+    ]
+  }
+}
