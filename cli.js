@@ -34,6 +34,7 @@ release(argv)
     if (!proc.env.NPM_TOKEN) {
       throw new Error('Expect NPM_TOKEN environment variable to be set.');
     }
+    console.log(result);
 
     const defaultRegistry = 'https://registry.npmjs.org/';
     const registry = argv.registry || proc.env.NPM_REGISTRY || defaultRegistry;
