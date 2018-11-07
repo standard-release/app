@@ -1,6 +1,6 @@
 {
   "public": true,
-  "alias": "tunnckocore-release",
+  "alias": "tunnckocore-release.now.sh",
   "env": {
     "APP_ID": "@tunnckocore-release-id",
     "NODE_ENV": "production",
