@@ -44,7 +44,7 @@ module.exports = (robot) => {
 
     const endpoint = (name) => `https://registry.npmjs.org/${name}`;
     const pkgMeta = await detector(pkg.name, commits /* , { endpoint } */);
-    console.log(pkgMeta);
+
     // If no need for bump, then exit.
     if (!pkgMeta.increment) {
       robot.log('No need for release publishing');

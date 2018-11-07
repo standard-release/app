@@ -8,5 +8,5 @@ export default async function release(options) {
 
   const endpoint = (name) => `https://registry.npmjs.org/${name}`;
 
-  return gitCommitsSince({ name: pkg.name, cwd: opts.cwd, endpoint });
+  return gitCommitsSince({ name: pkg.name, cwd: opts.cwd /* , endpoint */ });
 }
