@@ -56,7 +56,7 @@ jobtest: &jobtest
         command: yarn install --prefer-offline || yarn install
     - run:
         name: Testing your project
-        command: yarn test &&  || (yarn global add nyc@latest && yarn test)
+        command: yarn test || (yarn global add nyc@latest && yarn test)
     - save_cache:
         key: release-{{ checksum "yarn.lock" }}
         paths: node_modules
