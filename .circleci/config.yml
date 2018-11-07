@@ -56,7 +56,7 @@ jobtest: &jobtest
         command: yarn install --prefer-offline || yarn install
     - run:
         name: Testing your project
-        command: yarn test || (yarn add --dev nyc && yarn test)
+        command: yarn test &&  || (yarn global add nyc@latest && yarn test)
     - save_cache:
         key: release-{{ checksum "yarn.lock" }}
         paths: node_modules
@@ -107,7 +107,7 @@ jobs:
           command: yarn build || echo "No build step."
       - run:
           name: Releasing and publishing
-          command: yarn new-release || (yarn add --dev new-release && yarn new-release)
+          command: yarn remove new-release || (yarn global add new-release@latest && yarn new-release)
 
 workflows:
   version: 2
