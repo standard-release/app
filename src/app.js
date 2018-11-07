@@ -72,8 +72,8 @@ async function getPkgMeta(context, robot) {
 
   // Do we need such thing as "commits since last tag"?
   const allCommitsSinceLastTag = commits.map((commit) => {
-    robot.log(commit);
-    robot.log('========================');
+    console.log(commit);
+    console.log(commit.message);
     const cmt = parse(commit.message);
     cmt.sha = commit.sha;
     cmt.author = context.payload.author;
