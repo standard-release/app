@@ -11,7 +11,8 @@
     "precommit": "yarn lint && yarn test",
     "commit": "yarn dry",
     "dry": "git add -A && git status --porcelain && gitcommit -sS",
-    "release": "node cli.js"
+    "release": "node cli.js",
+    "new-release": "new-release"
   },
   "engines": {
     "node": "^8.11.0 || >=10.13.0"
