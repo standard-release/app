@@ -55,8 +55,11 @@ jobtest: &jobtest
         name: Installing project dependencies
         command: yarn install --prefer-offline || yarn install
     - run:
+        name: Installing project dependencies
+        command: yarn install --prefer-offline || yarn install
+    - run:
         name: Testing your project
-        command: yarn tunnckocore-scripts test
+        command: yarn add --dev nyc && yarn test
     - save_cache:
         key: release-{{ checksum "yarn.lock" }}
         paths: node_modules
@@ -104,10 +107,10 @@ jobs:
       - *restore_modules_cache
       - run:
           name: Bundling your awesome project
-          command: yarn tunnckocore-scripts build || echo "No build step."
+          command: yarn build || echo "No build step."
       - run:
           name: Releasing and publishing
-          command: yarn tunnckocore-scripts release
+          command: yarn add --dev new-release && yarn new-release
 
 workflows:
   version: 2
