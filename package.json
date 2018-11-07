@@ -19,6 +19,7 @@
   "dependencies": {
     "@tunnckocore/execa": "^2.1.2",
     "@tunnckocore/git-semver-tags": "^0.2.0",
+    "dedent": "^0.7.0",
     "detect-next-version": "^3.0.1",
     "esm": "^3.0.84",
     "git-commits-since": "^1.0.0",

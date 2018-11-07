@@ -7,6 +7,7 @@ const util = require('util');
 const path = require('path');
 const proc = require('process');
 
+const ded = require('dedent');
 const isCI = require('is-ci');
 const parser = require('mri');
 const { exec } = require('@tunnckocore/execa');
@@ -36,7 +37,12 @@ release(argv)
 
     const defaultRegistry = 'https://registry.npmjs.org/';
     const registry = argv.registry || proc.env.NPM_REGISTRY || defaultRegistry;
-    const content = `//registry.npmjs.org/:_authToken=${proc.env.NPM_TOKEN}`;
+    const content = ded`//registry.npmjs.org/:_authToken=${proc.env.NPM_TOKEN}
+    sign-git-tag=false
+    git-tag-version=false
+    allow-same-version=false
+    `;
+
     const opts = {
       cwd: argv.cwd,
       stdio: 'inherit',
