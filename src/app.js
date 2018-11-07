@@ -72,8 +72,8 @@ async function getPkgMeta(context, robot) {
 
   const allCommitsSinceLastTag = commits.map(({ commit }) => {
     const cmt = parse(commit.message);
-    cmt.sha = commit.sha;
-    cmt.author = context.payload.author;
+    cmt.tree = commit.tree;
+    cmt.author = context.payload.sender;
     cmt.repository = context.payload.repository.full_name;
     return cmt;
   });
