@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "licenseStart": "2018",
   "scripts": {
-    "start": "tunnckocore-scripts",
+    "start": "PRIVATE_KEY=$(echo $PRIVATE_KEY | base64 -d) probot run ./src/app.js",
     "extends": "@tunnckocore/config/scripts",
     "docs": "tunnckocore-scripts docs",
     "lint": "tunnckocore-scripts lint",
@@ -15,10 +15,20 @@
     "node": "^8.11.0 || >=10.13.0"
   },
   "dependencies": {
-    "esm": "^3.0.84"
+    "@tunnckocore/execa": "^2.1.2",
+    "@tunnckocore/git-semver-tags": "^0.2.0",
+    "axios": "^0.18.0",
+    "detect-next-version": "^3.0.1",
+    "esm": "^3.0.84",
+    "git-commits-since": "^1.0.0",
+    "is-ci": "^1.2.1",
+    "mri": "^1.1.1",
+    "parse-commit-message": "^2.1.4",
+    "probot": "^7.3.1",
+    "probot-config": "^0.2.0"
   },
   "devDependencies": {
-    "@tunnckocore/config": "^0.5.1",
+    "@tunnckocore/config": "^0.5.2",
     "@tunnckocore/scripts": "^1.1.0",
     "asia": "^0.19.7"
   },
