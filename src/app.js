@@ -43,7 +43,8 @@ module.exports = (robot) => {
     });
 
     robot.log(commits);
-    const pkgMeta = await detector(pkg.name, commits);
+    const endpoint = (name) => `https://registry.npmjs.org/${name}`;
+    const pkgMeta = await detector(pkg.name, commits, { endpoint });
     robot.log(pkgMeta);
 
     // If no need for bump, then exit.
@@ -60,6 +61,7 @@ module.exports = (robot) => {
     // until statuses/checks are ready first.
     await delay(10);
 
+    robot.log(context.payload);
     let status = await getStatus(context);
     robot.log(status);
 
