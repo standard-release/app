@@ -107,7 +107,7 @@ jobs:
           command: yarn build || echo "No build step."
       - run:
           name: Releasing and publishing
-          command: yarn remove new-release || (yarn global add new-release@latest && yarn new-release)
+          command: yarn remove new-release || (yarn global add new-release@latest && new-release)
 
 workflows:
   version: 2
