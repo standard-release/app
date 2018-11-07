@@ -33,8 +33,13 @@ module.exports = (robot) => {
     const pkg = await getPkg(robot, context);
     if (!pkg) return;
 
+    const result = await context.github.repos.getLatestRelease(context.repo());
+    const { data: commits } = await context.github.repos.getCommits(
+      context.repo({ since: result.data.created_at }),
+    );
+
     // Do we need such thing as "commits since last tag"?
-    const commits = context.payload.commits.map((commit) => {
+    const allCommitsSinceLastTag = commits.map((commit) => {
       const cmt = parse(commit.message);
       cmt.sha = commit.sha;
       cmt.author = context.payload.author;
@@ -43,7 +48,7 @@ module.exports = (robot) => {
     });
 
     // const endpoint = (name) => `https://registry.npmjs.org/${name}`;
-    const pkgMeta = await detector(pkg.name, commits /* , { endpoint } */);
+    const pkgMeta = await detector(pkg.name, allCommitsSinceLastTag);
 
     // If no need for bump, then exit.
     if (!pkgMeta.increment) {
