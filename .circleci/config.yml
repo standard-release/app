@@ -146,4 +146,4 @@ workflows:
           filters:
             branches:
               only: master
-          context: org-secret
+          context: org-global
