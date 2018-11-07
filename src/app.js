@@ -42,10 +42,8 @@ module.exports = (robot) => {
       return cmt;
     });
 
-    robot.log(commits);
     const endpoint = (name) => `https://registry.npmjs.org/${name}`;
     const pkgMeta = await detector(pkg.name, commits, { endpoint });
-    robot.log(pkgMeta);
 
     // If no need for bump, then exit.
     if (!pkgMeta.increment) {
@@ -61,15 +59,11 @@ module.exports = (robot) => {
     // until statuses/checks are ready first.
     await delay(10);
 
-    robot.log(context.payload);
     let status = await getStatus(context);
     robot.log(status);
 
     if (status === 'success') {
-      await createRelease(
-        context,
-        context.repo({ ref: context.payload.head, pkgMeta }),
-      );
+      await createRelease(context, context.repo({ pkgMeta }));
     } else {
       // Recheck every 30 seconds.
       // CircleCI is pretty fast, but some builds may need more time.
@@ -79,10 +73,7 @@ module.exports = (robot) => {
 
         if (status === 'success') {
           clearInterval(interval);
-          await createRelease(
-            context,
-            context.repo({ ref: context.payload.head, pkgMeta }),
-          );
+          await createRelease(context, context.repo({ pkgMeta }));
 
           robot.log('Release created.');
         } else {
@@ -126,7 +117,7 @@ async function getPkg(robot, context) {
 
 async function getStatus(context) {
   const { data } = await context.github.repos.getCombinedStatusForRef(
-    context.repo({ ref: context.payload.head }),
+    context.repo({ ref: context.payload.head_commit }),
   );
 
   if (data.state === 'success') {
