@@ -34,6 +34,7 @@ module.exports = (robot) => {
     if (!pkg) return;
 
     // Do we need such thing as "commits since last tag"?
+    console.log(context.payload.commits);
     const commits = context.payload.commits.map((commit) => {
       const cmt = parse(commit.message);
       cmt.sha = commit.sha;
