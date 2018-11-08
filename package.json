@@ -52,7 +52,7 @@
   "main": "index.js",
   "module": "src/index.js",
   "typings": "src/index.d.ts",
-  "version": "0.0.0",
+  "version": "0.8.0",
   "repository": "tunnckoCore/release",
   "homepage": "https://github.com/tunnckoCore/release",
   "author": "Charlike Mike Reagent (https://tunnckocore.com)",

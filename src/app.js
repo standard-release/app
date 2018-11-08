@@ -70,7 +70,7 @@ async function getPkgMeta(context, robot) {
     context.repo({ since: result.data.created_at }),
   );
 
-  const allCommitsSinceLastTag = commits.map(({ commit }) => {
+  const allCommitsSinceLastTag = commits.slice(0, -1).map(({ commit }) => {
     const cmt = parse(commit.message);
     cmt.tree = commit.tree;
     cmt.author = context.payload.sender;
