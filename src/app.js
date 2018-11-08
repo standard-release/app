@@ -134,8 +134,6 @@ async function getStatus(context) {
     context.repo({ ref: context.payload.ref }),
   );
 
-  console.log(data);
-
   if (data.state === 'success') {
     return data.state;
   }

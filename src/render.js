@@ -33,10 +33,13 @@ module.exports = function render(locals) {
         if (commit.author && commit.author.login) {
           profile = ` @${commit.author.login}`;
         }
+
         const hash = commit.tree ? commit.tree.sha.slice(0, 7) : null;
         const shaLink = hash ? ` ([#${hash}](${commit.tree.url})) ` : '';
 
-        tpl.push(`- ${commit.header.toString()}${shaLink}${profile}`);
+        const { scope, subject } = commit.header;
+        const header = scope ? `**${scope}:** ${subject}` : subject;
+        tpl.push(`- ${header}${shaLink}${profile}`);
       });
 
       const excludeSignOff = (zz) => {
