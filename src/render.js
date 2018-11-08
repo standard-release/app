@@ -7,10 +7,9 @@ module.exports = function render(locals) {
   const to = locals.nextVersion;
 
   const repository = `${owner}/${repo}`;
-  /* eslint-disable no-param-reassign */
-  locals.link = `https://github.com/${repository}/compare/v${from}..v${to}`;
+  const link = `https://github.com/${repository}/compare/v${from}..v${to}`;
 
-  tpl.push(`# [v${to}](${locals.link}) (${locals.date})`, '');
+  tpl.push(`# [v${to}](${link}) (${locals.date})`, '');
 
   ['major', 'minor', 'patch'].forEach((type) => {
     if (locals[type]) {
@@ -30,11 +29,14 @@ module.exports = function render(locals) {
       }
 
       locals[type].forEach((commit) => {
-        const profile = (commit.author && commit.author.login) || '';
+        let profile = '';
+        if (commit.author && commit.author.login) {
+          profile = ` @${commit.author.login}`;
+        }
         const hash = commit.tree ? commit.tree.sha.slice(0, 7) : null;
         const shaLink = hash ? ` ([#${hash}](${commit.tree.url})) ` : '';
 
-        tpl.push(`- ${commit.header.toString()}${shaLink} ${profile}`);
+        tpl.push(`- ${commit.header.toString()}${shaLink}${profile}`);
       });
 
       const excludeSignOff = (zz) => {
@@ -60,10 +62,8 @@ module.exports = function render(locals) {
     }
   });
 
-  const link = `[\`v${locals.from}...v${locals.to}\`](${locals.compareLink})`;
-
   return tpl
-    .concat('', link)
+    .concat('', `[\`v${from}...v${to}\`](${link})`)
     .filter((x) => x !== null && x !== ' ')
     .join('\n')
     .trim();
