@@ -36,9 +36,8 @@ release(argv)
     }
 
     console.log(
-      JSON.stringify(
-        result,
-        (x, v) => (typeof v === 'function' ? '[Function]' : v),
+      JSON.stringify(result, (x, v) =>
+        typeof v === 'function' ? '[Function]' : v,
       ),
     );
 

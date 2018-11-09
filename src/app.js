@@ -1,4 +1,4 @@
-const { parse } = require('parse-commit-message');
+const { parse, plugins } = require('parse-commit-message');
 const detector = require('detect-next-version');
 const getConfig = require('probot-config');
 
@@ -71,13 +71,11 @@ async function getPkgMeta(context, robot) {
   );
 
   const allCommitsSinceLastTag = commits.slice(0, -1).map((commit) => {
-    const cmt = parse(commit.commit.message);
-    
-    // temporary, because pushing from GitHub UI
-    cmt.tree = { sha: commit.sha, url: commit.html_url };
-    
+    const cmt = parse(commit.commit.message, plugins);
+
     cmt.repository = context.payload.repository.full_name;
-    return Object.assign({}, commit, cmt)
+
+    return Object.assign({}, commit, cmt);
   });
 
   // const endpoint = (name) => `https://registry.npmjs.org/${name}`;
