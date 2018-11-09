@@ -16,7 +16,7 @@ function renderDataForType(commits, tpl) {
 
     const { scope, subject } = commit.header;
     const header = scope ? `**${scope}:** ${subject}` : subject;
-    tpl.push(`- ${header}${shaLink}${profile}`);
+    tpl.push(`- ${shaLink}${header}${profile}`);
 
     if (commit.body) {
       tpl.push('', excludeSignOff(commit.body));
@@ -41,29 +41,25 @@ module.exports = function render(locals) {
 
   tpl.push(`# [v${to}](${link}) (${locals.date})`, '');
 
-  ['major', 'minor', 'patch'].forEach((type) => {
-    if (locals[type]) {
-      let heading = null;
+  let heading = null;
 
-      if (locals.major) {
-        heading = '## :exclamation: BREAKING CHANGES! :scream:';
-        tpl.push(heading, '');
-        renderDataForType(locals.major, tpl);
-      }
-      if (locals.minor) {
-        heading = '## :tada: New Features';
-        tpl.push(heading, '');
-        renderDataForType(locals.minor, tpl);
-      }
-      if (locals.patch) {
-        heading = '## :bug: Bug Fixes';
-        tpl.push(heading, '');
-        renderDataForType(locals.patch, tpl);
-      }
+  if (locals.major) {
+    heading = '## :exclamation: BREAKING CHANGES! :scream:';
+    tpl.push(heading, '');
+    renderDataForType(locals.major, tpl);
+  }
+  if (locals.minor) {
+    heading = '## :tada: New Features';
+    tpl.push(heading, '');
+    renderDataForType(locals.minor, tpl);
+  }
+  if (locals.patch) {
+    heading = '## :bug: Bug Fixes';
+    tpl.push(heading, '');
+    renderDataForType(locals.patch, tpl);
+  }
 
-      tpl.push('', '');
-    }
-  });
+  tpl.push('', '');
 
   return tpl
     .concat('', `[\`v${from}...v${to}\`](${link})`)
