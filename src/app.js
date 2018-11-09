@@ -70,12 +70,14 @@ async function getPkgMeta(context, robot) {
     context.repo({ since: result.data.created_at }),
   );
 
-  const allCommitsSinceLastTag = commits.slice(0, -1).map(({ commit }) => {
-    const cmt = parse(commit.message);
-    cmt.tree = commit.tree;
-    cmt.author = context.payload.sender;
+  const allCommitsSinceLastTag = commits.slice(0, -1).map((commit) => {
+    const cmt = parse(commit.commit.message);
+    
+    // temporary, because pushing from GitHub UI
+    cmt.tree = { sha: commit.sha, url: commit.html_url };
+    
     cmt.repository = context.payload.repository.full_name;
-    return cmt;
+    return Object.assign({}, commit, cmt)
   });
 
   // const endpoint = (name) => `https://registry.npmjs.org/${name}`;
