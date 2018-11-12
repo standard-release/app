@@ -30,7 +30,7 @@ Project is [semantically](https://semver.org) & automatically released on [Circl
 <!-- Logo when needed:
 
 <p align="center">
-  <a href="https://github.com/tunnckoCoreLabs/release">
+  <a href="https://github.com/tunnckoCore/release">
     <img src="./media/logo.png" width="85%">
   </a>
 </p>
@@ -113,7 +113,7 @@ here](https://github.com/jfmengels/all-contributors-cli#usage).
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars3.githubusercontent.com/u/5038030?v=4" width="120px;"/><br /><sub><b>Charlike Mike Reagent</b></sub>](https://tunnckocore.com)<br />[💻](https://github.com/tunnckoCoreLabs/release/commits?author=tunnckoCore "Code") [📖](https://github.com/tunnckoCoreLabs/release/commits?author=tunnckoCore "Documentation") [💬](#question-tunnckoCore "Answering Questions") [👀](#review-tunnckoCore "Reviewed Pull Requests") [🔍](#fundingFinding-tunnckoCore "Funding Finding") |
+| [<img src="https://avatars3.githubusercontent.com/u/5038030?v=4" width="120px;"/><br /><sub><b>Charlike Mike Reagent</b></sub>](https://tunnckocore.com)<br />[💻](https://github.com/tunnckoCore/release/commits?author=tunnckoCore "Code") [📖](https://github.com/tunnckoCore/release/commits?author=tunnckoCore "Documentation") [💬](#question-tunnckoCore "Answering Questions") [👀](#review-tunnckoCore "Reviewed Pull Requests") [🔍](#fundingFinding-tunnckoCore "Funding Finding") |
 | :---: |
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
@@ -132,10 +132,10 @@ Released under the [Apache-2.0 License][license-url].
 [npmv-url]: https://www.npmjs.com/package/@tunnckocore/release
 [npmv-img]: https://badgen.net/npm/v/@tunnckocore/release?icon=npm
 
-[ghrelease-url]: https://github.com/tunnckoCoreLabs/release/releases/latest
-[ghrelease-img]: https://badgen.net/github/release/tunnckoCoreLabs/release?icon=github
+[ghrelease-url]: https://github.com/tunnckoCore/release/releases/latest
+[ghrelease-img]: https://badgen.net/github/release/tunnckoCore/release?icon=github
 
-[license-url]: https://github.com/tunnckoCoreLabs/release/blob/master/LICENSE
+[license-url]: https://github.com/tunnckoCore/release/blob/master/LICENSE
 [license-img]: https://badgen.net/npm/license/@tunnckocore/release
 
 <!-- Front line badges -->
@@ -143,14 +143,14 @@ Released under the [Apache-2.0 License][license-url].
 [codestyle-url]: https://github.com/airbnb/javascript
 [codestyle-img]: https://badgen.net/badge/code%20style/airbnb/ff5a5f?icon=airbnb
 
-[linuxbuild-url]: https://circleci.com/gh/tunnckoCoreLabs/release/tree/master
-[linuxbuild-img]: https://badgen.net/circleci/github/tunnckoCoreLabs/release/master?label=build&icon=circleci
+[linuxbuild-url]: https://circleci.com/gh/tunnckoCore/release/tree/master
+[linuxbuild-img]: https://badgen.net/circleci/github/tunnckoCore/release/master?label=build&icon=circleci
 
-[codecoverage-url]: https://codecov.io/gh/tunnckoCoreLabs/release
-[codecoverage-img]: https://badgen.net/codecov/c/github/tunnckoCoreLabs/release?icon=codecov
+[codecoverage-url]: https://codecov.io/gh/tunnckoCore/release
+[codecoverage-img]: https://badgen.net/codecov/c/github/tunnckoCore/release?icon=codecov
 
-[dependencies-url]: https://david-dm.org/tunnckoCoreLabs/release
-[dependencies-img]: https://badgen.net/david/dep/tunnckoCoreLabs/release?label=deps
+[dependencies-url]: https://david-dm.org/tunnckoCore/release
+[dependencies-img]: https://badgen.net/david/dep/tunnckoCore/release?label=deps
 
 [ccommits-url]: https://conventionalcommits.org/
 [ccommits-img]: https://badgen.net/badge/conventional%20commits/v1.0.0/dfb317
@@ -171,9 +171,9 @@ Released under the [Apache-2.0 License][license-url].
 [patreon-img]: https://badgen.net/badge/patreon/tunnckoCore/F96854?icon=patreon
 [patreon-sponsor-img]: https://badgen.net/badge/become/a%20sponsor/F96854?icon=patreon
 
-[shareu]: https://twitter.com/intent/tweet?text=https://github.com/tunnckoCoreLabs/release&via=tunnckoCore
+[shareu]: https://twitter.com/intent/tweet?text=https://github.com/tunnckoCore/release&via=tunnckoCore
 [shareb]: https://badgen.net/badge/twitter/share/1da1f2?icon=twitter
-[open-issue-url]: https://github.com/tunnckoCoreLabs/release/issues/new
+[open-issue-url]: https://github.com/tunnckoCore/release/issues/new
 
 [new-release]: https://github.com/tunnckoCore/new-release
 [semantic-release]: https://github.com/semantic-release/semantic-release
