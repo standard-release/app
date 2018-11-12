@@ -1,4 +1,4 @@
-import { parse, plugins } from 'parse-commit-message';
+import { applyPlugins, plugins, parse, check } from 'parse-commit-message';
 import detector from 'detect-next-version';
 import getConfig from 'probot-config';
 
@@ -71,13 +71,24 @@ async function getPkgMeta(context, robot) {
     context.repo({ since: result.data.created_at }),
   );
 
-  const allCommitsSinceLastTag = commits.slice(0, -1).map((commit) => {
-    const cmt = parse(commit.commit.message, plugins);
-
-    cmt.repository = context.payload.repository.full_name;
-
-    return Object.assign({}, commit, cmt);
-  });
+  const allCommitsSinceLastTag = commits
+    .slice(0, -1)
+    .reduce(
+      (acc, commit) =>
+        acc.concat(
+          ...applyPlugins(
+            plugins.concat((cmt) => Object.assign({}, commit, cmt)),
+            check(parse(commit.commit.message)),
+          ),
+        ),
+      [],
+    )
+    .map((commit) =>
+      Object.assign(
+        { repository: context.payload.repository.full_name },
+        commit,
+      ),
+    );
 
   // const endpoint = (name) => `https://registry.npmjs.org/${name}`;
   return detector(pkg.name, allCommitsSinceLastTag);
