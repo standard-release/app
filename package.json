@@ -5,7 +5,7 @@
   "licenseStart": "2018",
   "scripts": {
     "now-start": "PRIVATE_KEY=$(echo $PRIVATE_KEY | base64 -d) yarn app",
-    "app": "probot run index.js",
+    "app": "probot run ./index.js",
 
     "docs": "verb",
     "lint": "eslint '**/*.js' --cache --fix --quiet --format codeframe",
@@ -39,7 +39,7 @@
   "main": "index.js",
   "module": "src/index.js",
   "typings": "src/index.d.ts",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "repository": "tunnckoCoreLabs/release",
   "homepage": "https://github.com/tunnckoCoreLabs/release",
   "author": "Charlike Mike Reagent (https://tunnckocore.com)",
