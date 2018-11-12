@@ -3,9 +3,7 @@
 function renderDataForType(commits, tpl) {
   commits.forEach((commit) => {
     const hash = commit.sha.slice(0, 10);
-    const shaLink = `[[\`${hash}\`](${commit.html_url} "${
-      commit.commit.message
-    }")] - `;
+    const shaLink = `[[\`${hash}\`](${commit.html_url})] - `;
 
     const { scope, subject } = commit.header;
     const header = scope ? `**${scope}:** ${subject}` : subject;
