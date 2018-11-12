@@ -1,0 +1,6 @@
+*
+!now.json
+!yarn.lock
+!package.json
+!src
+!index.js

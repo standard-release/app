@@ -1,6 +1,7 @@
 {
-  "version": 2,
+  "version": 1,
   "public": true,
+  "name": "@tunnckocore/release",
   "alias": "tunnckocore-release",
   "env": {
     "APP_ID": "@tunnckocore-release-id",
