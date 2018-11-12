@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = { extends: 'esmc' };
+module.exports = require('@tunnckocore/config/eslint');

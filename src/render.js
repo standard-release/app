@@ -1,36 +1,26 @@
 'use strict';
 
-function excludeSignOff(zz) {
-  return zz.split('\n').filter((x) => !x.startsWith('Signed-off-by:'));
-}
-
 function renderDataForType(commits, tpl) {
   commits.forEach((commit) => {
-    let profile = '';
-    if (commit.author && commit.author.login) {
-      profile = ` @${commit.author.login}`;
-    }
-
-    const hash = commit.sha.slice(0, 7);
-    const shaLink = hash ? ` ([#${hash}](${commit.html_url})) ` : '';
+    const hash = commit.sha.slice(0, 10);
+    const shaLink = `[[\`${hash}\`](${commit.html_url}, "${
+      commit.commit.message
+    }")] - `;
 
     const { scope, subject } = commit.header;
     const header = scope ? `**${scope}:** ${subject}` : subject;
-    tpl.push(`- ${shaLink}${header}${profile}`);
 
-    if (commit.body) {
-      tpl.push('', excludeSignOff(commit.body));
-    }
-    if (commit.footer) {
-      tpl.push('', excludeSignOff(commit.footer));
-    }
-    if (commit.mentions && commit.mentions.length > 0) {
-      tpl.push('', commit.mentions.join(' '));
-    }
+    const profile = `@${commit.author.login}`;
+    const profiles =
+      commit.mentions && commit.mentions.length > 0
+        ? [profile].concat(commit.mentions).join(', ')
+        : profile;
+
+    tpl.push(`- ${shaLink}${header} (${profiles})`);
   });
 }
 
-module.exports = function render(locals) {
+export default function render(locals) {
   const tpl = [];
   const { owner, repo } = locals;
   const from = locals.lastVersion;
@@ -66,4 +56,4 @@ module.exports = function render(locals) {
     .filter((x) => x !== null && x !== ' ')
     .join('\n')
     .trim();
-};
+}

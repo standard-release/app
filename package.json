@@ -5,14 +5,15 @@
   "licenseStart": "2018",
   "scripts": {
     "now-start": "PRIVATE_KEY=$(echo $PRIVATE_KEY | base64 -d) yarn app",
-    "app": "probot run ./src/app.js",
-    "docs": "docks --outfile .verb.md && verb",
-    "lint": "eslint src test index.js cli.js --cache --fix --quiet --format codeframe",
+    "app": "probot run index.js",
+
+    "docs": "verb",
+    "lint": "eslint '**/*.js' --cache --fix --quiet --format codeframe",
     "test": "nyc asia",
-    "precommit": "yarn lint && yarn test",
-    "commit": "yarn dry",
+    "commit": "yarn lint && yarn test && yarn dry",
     "dry": "git add -A && git status --porcelain && gitcommit -sS",
-    "release": "node cli.js",
+    "release": "tunnckocore-release",
+
     "deploy:rm": "now rm -y @tunnckocore/release",
     "deploy:now": "now && now alias",
     "deploy": "(yarn deploy:rm && yarn deploy:now) || yarn deploy:now"
@@ -21,40 +22,26 @@
     "node": "^8.11.0 || >=10.13.0"
   },
   "dependencies": {
-    "@tunnckocore/execa": "^2.1.2",
-    "@tunnckocore/git-semver-tags": "^0.2.0",
-    "dedent": "^0.7.0",
-    "detect-next-version": "^3.0.1",
+    "detect-next-version": "^3.1.0",
     "esm": "^3.0.84",
-    "git-commits-since": "^1.0.1",
-    "is-ci": "^1.2.1",
-    "mri": "^1.1.1",
-    "parse-commit-message": "^2.1.4",
+    "parse-commit-message": "^3.2.0",
     "probot": "^7.3.1",
     "probot-config": "^0.2.0"
   },
   "devDependencies": {
-    "asia": "^0.19.7",
-    "eslint": "^5.8.0",
-    "eslint-config-esmc": "^1.0.12",
-    "gitcommit": "^1.0.13",
-    "smee-client": "^1.0.2"
+    "@tunnckocore/config": "^1.0.2",
+    "asia": "^0.19.7"
   },
   "files": [
     "src",
-    "index.js",
-    "cli.js"
+    "index.js"
   ],
-  "bin": {
-    "release": "cli.js",
-    "tunnckocore-release": "cli.js"
-  },
   "main": "index.js",
   "module": "src/index.js",
   "typings": "src/index.d.ts",
-  "version": "0.8.0",
-  "repository": "tunnckoCore/release",
-  "homepage": "https://github.com/tunnckoCore/release",
+  "version": "0.10.1",
+  "repository": "tunnckoCoreLabs/release",
+  "homepage": "https://github.com/tunnckoCoreLabs/release",
   "author": "Charlike Mike Reagent (https://tunnckocore.com)",
   "publishConfig": {
     "access": "public",
@@ -77,15 +64,11 @@
     "related": {
       "list": [
         "asia",
-        "charlike",
         "docks",
         "gitcommit",
-        "@tunnckocore/execa",
-        "@tunnckocore/package-json",
-        "@tunnckocore/create-project",
-        "@tunnckocore/update",
-        "@tunnckocore/config",
-        "@tunnckocore/scripts"
+        "git-commits-since",
+        "parse-commit-message",
+        "detect-next-version"
       ]
     },
     "lint": {
