@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "public": true,
+  "name": "@tunnckocore/release",
+  "alias": "tunnckocore-release",
+  "env": {
+    "APP_ID": "@tunnckocore-release-id",
+    "NODE_ENV": "production",
+    "PRIVATE_KEY": "@tunnckocore-release-private-key",
+    "WEBHOOK_SECRET": "@tunnckocore-release-webhook-secret"
+  }
+}

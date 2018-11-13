@@ -1,12 +1,8 @@
 {
-  "version": 1,
-  "public": true,
-  "name": "@tunnckocore/release",
+  "version": 2,
+  "name": "tunnckocore-release-now-v2",
   "alias": "tunnckocore-release",
-  "env": {
-    "APP_ID": "@tunnckocore-release-id",
-    "NODE_ENV": "production",
-    "PRIVATE_KEY": "@tunnckocore-release-private-key",
-    "WEBHOOK_SECRET": "@tunnckocore-release-webhook-secret"
-  }
+  "builds": [
+    { "src": "index.js", "use": "@now/node" }
+  ]
 }
