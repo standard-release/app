@@ -4,5 +4,11 @@
   "alias": "tunnckocore-release",
   "builds": [
     { "src": "index.js", "use": "@now/node" }
-  ]
+  ],
+  "env": {
+    "APP_ID": "@tunnckocore-release-id",
+    "NODE_ENV": "production",
+    "PRIVATE_KEY": "@tunnckocore-release-private-key",
+    "WEBHOOK_SECRET": "@tunnckocore-release-webhook-secret"
+  }
 }
