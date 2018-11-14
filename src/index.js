@@ -167,14 +167,14 @@ async function getStatus(context) {
     }
   });
 
-  if (states.success.length > 0) {
-    return 'success';
+  if (states.pending.length > 0) {
+    return 'pending';
   }
   if (states.failure.length > 0) {
     return 'failure';
   }
-  if (states.pending.length > 0) {
-    return 'pending';
+  if (states.success.length > 0) {
+    return 'success';
   }
   return null;
 }

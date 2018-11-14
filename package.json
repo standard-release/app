@@ -7,11 +7,13 @@
     "now-start": "PRIVATE_KEY=$(echo $PRIVATE_KEY | base64 -d) yarn app",
     "app": "probot run ./index.js",
 
-    "docs": "verb",
+    "docs": "docks --outfile .verb.md && verb",
     "lint": "eslint '**/*.js' --cache --fix --quiet --format codeframe",
+    "test-only": "asia -r esm",
     "test": "nyc asia",
-    "commit": "yarn lint && yarn test && yarn dry",
-    "dry": "git add -A && git status --porcelain && gitcommit -sS",
+    "precommit": "yarn run lint && yarn run test-only",
+    "commit": "yarn dry",
+    "dry": "git add -A && git status --porcelain && gitcommit",
     "release": "tunnckocore-release",
 
     "deploy:rm": "now rm -y @tunnckocore/release",
