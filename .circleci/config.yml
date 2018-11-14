@@ -61,7 +61,7 @@ jobtest: &jobtest
         name: Testing your project
         command: yarn global add nyc@latest && yarn test
     - save_cache:
-        key: charlike-{{ checksum "yarn.lock" }}
+        key: release-{{ checksum "yarn.lock" }}
         paths: node_modules
     - run:
         name: Sending test coverage to CodeCov
