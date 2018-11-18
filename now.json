@@ -3,7 +3,7 @@
   "name": "tunnckocore-release-now-v2",
   "alias": "tunnckocore-release",
   "builds": [
-    { "src": "index.js", "use": "@now/node@0.4.24" }
+    { "src": "index.js", "use": "@now/node@0.4.20" }
   ],
   "env": {
     "APP_ID": "@tunnckocore-release-id",
