@@ -21,7 +21,7 @@
     "deploy": "(yarn deploy:rm && yarn deploy:now) || yarn deploy:now"
   },
   "engines": {
-    "node": "^8.11.0 || >=10.13.0"
+    "node": "^8.10.0 || >=10.13.0"
   },
   "dependencies": {
     "detect-next-version": "^3.1.0",
