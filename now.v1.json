@@ -1,10 +1,8 @@
 {
-  "version": 2,
-  "name": "tunnckocore-release-now-v2",
+  "version": 1,
+  "public": true,
+  "name": "@tunnckocore/release",
   "alias": "tunnckocore-release",
-  "builds": [
-    { "src": "index.js", "use": "@now/node@0.4.20" }
-  ],
   "env": {
     "APP_ID": "@tunnckocore-release-id",
     "NODE_ENV": "production",
