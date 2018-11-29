@@ -341,6 +341,11 @@ dedent@^0.7.0:
   resolved "https://registry.yarnpkg.com/dedent/-/dedent-0.7.0.tgz#2495ddbaf6eb874abb0e1be9df22d2e5a544326c"
   integrity sha1-JJXduvbrh0q7Dhvp3yLS5aVEMmw=
 
+deepmerge@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.2.1.tgz#5d3ff22a01c00f645405a2fbc17d0778a1801170"
+  integrity sha512-R9hc1Xa/NOBi9WRVUWg19rl1UB7Tt4kuPd+thNJgFZoxXsTz7ncaPaeIm+40oSGuP33DfMb4sZt1QIGiJzC4EA==
+
 depd@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
@@ -1090,11 +1095,12 @@ pkg-conf@^2.0.0:
     find-up "^2.0.0"
     load-json-file "^4.0.0"
 
-probot-config@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/probot-config/-/probot-config-0.2.0.tgz#50af0349d37c367e182a06a9dafc7e3b76a6a8b8"
-  integrity sha512-xURFHWnzna2Gphw9LJgI9PTzDKZKxgGWGidfwXKlhP09F226UgxMsA2uMLlG7LEKNsKP1Yx9SAec8tsDYw2lNw==
+probot-config@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/probot-config/-/probot-config-1.0.0.tgz#4da831672fd08dab26fc522b6aee0027095039d0"
+  integrity sha512-5zV1JjvVH0zy67OZcjv36I/sz7AE7gsVSCkn7rHfNw4tndJhVuKDtq0sn78MoPEPazMbqvq5k0WVYz5MM2Ajyg==
   dependencies:
+    deepmerge "^2.2.1"
     js-yaml "^3.10.0"
 
 probot@^7.3.1:

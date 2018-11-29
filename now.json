@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "name": "@tunnckocore/release",
-  "alias": "tunnckocore-release",
+  "name": "@standard-release/app",
+  "alias": "standard-release",
   "builds": [
     { "src": "src/index.js", "use": "@now/node" }
   ],

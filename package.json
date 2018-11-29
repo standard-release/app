@@ -1,6 +1,6 @@
 {
-  "name": "@tunnckocore/release",
-  "description": "Release and publish a new project to NPM and GitHub, automatically. Following Conventional Commits specification and Semver. It provides GitHub App, similar to [semantic-release][], too.",
+  "name": "@standard-release/app",
+  "description": "Automated workflow for language independent module publishing and creating GitHub Releases, following the Conventional Commits and SemVer specifications",
   "license": "Apache-2.0",
   "licenseStart": "2018",
   "scripts": {
@@ -13,7 +13,7 @@
     "precommit": "scripts lint && scripts test-only",
     "commit": "scripts dry",
     "dry": "git add -A && git status --porcelain && scripts gitcommit",
-    "deploy:rm": "now rm -y @tunnckocore/release",
+    "deploy:rm": "now rm -y @standard-release/app",
     "deploy:now": "now && now alias",
     "deploy": "(yarn deploy:rm && yarn deploy:now) || yarn deploy:now"
   },
@@ -38,9 +38,9 @@
   "main": "index.js",
   "module": "src/index.js",
   "typings": "src/index.d.ts",
-  "version": "0.14.15",
-  "repository": "tunnckoCore/release",
-  "homepage": "https://github.com/tunnckoCore/release",
+  "version": "0.15.1",
+  "repository": "standard-release/app",
+  "homepage": "https://github.com/standard-release/app",
   "author": "Charlike Mike Reagent (https://tunnckocore.com)",
   "publishConfig": {
     "access": "public",
