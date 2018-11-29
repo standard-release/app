@@ -1,8 +1,8 @@
 {
   "name": "@standard-release/app",
-  "description": "Automated workflow for language independent module publishing and creating GitHub Releases, following the Conventional Commits and SemVer specifications",
+  "description": "GitHub App for creating GitHub Releases, following the Conventional Commits and SemVer specifications",
   "license": "Apache-2.0",
-  "licenseStart": "2018",
+  "licenseStart": "2017",
   "scripts": {
     "now-start": "PRIVATE_KEY=$(echo $PRIVATE_KEY | base64 -d) yarn app",
     "app": "probot run ./index.js",
