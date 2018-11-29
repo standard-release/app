@@ -25,10 +25,10 @@
     buffer-equal-constant-time "^1.0.1"
     debug "^4.0.0"
 
-"@tunnckocore/execa@^2.0.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@tunnckocore/execa/-/execa-2.1.2.tgz#c60dcc49ffbe8edb06211db966dda05eb2318186"
-  integrity sha512-uV3ocBiZurQajYx8mIqlg8mTDaoOH2Wp2HDqUUHMLEn2AArXK99BF1Cac6FYpj7m7IVXOP94mOWvjK5c8Aa+Bg==
+"@tunnckocore/execa@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@tunnckocore/execa/-/execa-2.2.1.tgz#34557ab1a44af060edd9938b41d9508fffb3c399"
+  integrity sha512-YkRe0ny24JKuoxo/uIx7TzbunGnsfsQZ7neuIGPRnh1ykHG50FijGH9tUaTZfqzyrvMJF31Uh2QVmgEBjnFuXg==
   dependencies:
     esm "^3.0.84"
     execa "^1.0.0"
@@ -44,13 +44,13 @@
     esm "^3.0.84"
     parse-package-name "^0.1.0"
 
-"@tunnckocore/scripts@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@tunnckocore/scripts/-/scripts-1.2.3.tgz#db2d77ecae750fbe2bced45f197d7ac3b573186d"
-  integrity sha512-9WJLX8FHIi61J4y0aDBjnDwW7KaC7S5HGB3S6LV1d7k5BqZEI3WF9nnEF0VhiwZ6392la0yHXDCLJo+4VUdJCg==
+"@tunnckocore/scripts@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@tunnckocore/scripts/-/scripts-1.2.5.tgz#c0b9f4aaa9258c9d4fec488c7c236f7a0a1052d3"
+  integrity sha512-brBfywuijhuRNT+Ts0Akg9DSh85MUasQVccdyvt2CdwQYxM+CVN7F8PWy5Xv3T+1c8WrEatscGTX4383tKumtQ==
   dependencies:
-    "@tunnckocore/execa" "^2.0.2"
-    all-module-paths "^0.7.0"
+    "@tunnckocore/execa" "^2.2.1"
+    all-module-paths "^0.7.1"
     esm "^3.0.84"
 
 "@types/supports-color@^5.3.0":
@@ -82,10 +82,10 @@ align-text@^0.1.1, align-text@^0.1.3:
     longest "^1.0.1"
     repeat-string "^1.5.2"
 
-all-module-paths@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/all-module-paths/-/all-module-paths-0.7.0.tgz#2ca84a6b2eb7543c678312e60ade16cfc7cc46c7"
-  integrity sha512-q2lT5Pe1lchyNKioKVqzIl6qCrI+oy6A6oq1xGYS07+mioH7yzOdleg9+n99tLTf2EcmNPWYyEZZ9QCHD9D7HQ==
+all-module-paths@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/all-module-paths/-/all-module-paths-0.7.1.tgz#2d16dd821185d9d4b2b99a83473f6999863c5d43"
+  integrity sha512-KS0BdamB3hDP6PLiqijm4s1XU7yXFj8L49FPTnXTITKPFos7yWSbrwGpLCECunOwtYSh51cxcIvmDDpRrG4ydA==
   dependencies:
     esm "^3.0.84"
     global-dirs "^0.1.1"

@@ -6,7 +6,6 @@
   "scripts": {
     "now-start": "PRIVATE_KEY=$(echo $PRIVATE_KEY | base64 -d) yarn app",
     "app": "probot run ./index.js",
-
     "docs": "scripts verb",
     "lint": "scripts eslint '{src,test}/**/*.js' '*.js' --cache --fix --quiet --format codeframe",
     "test-only": "node -r esm test/index.js",
@@ -14,7 +13,6 @@
     "precommit": "scripts lint && scripts test-only",
     "commit": "scripts dry",
     "dry": "git add -A && git status --porcelain && scripts gitcommit",
-
     "deploy:rm": "now rm -y @tunnckocore/release",
     "deploy:now": "now && now alias",
     "deploy": "(yarn deploy:rm && yarn deploy:now) || yarn deploy:now"
@@ -30,7 +28,7 @@
     "probot-config": "^0.2.0"
   },
   "devDependencies": {
-    "@tunnckocore/scripts": "^1.2.3",
+    "@tunnckocore/scripts": "^1.2.5",
     "asia": "^1.0.0-rc.25"
   },
   "files": [
