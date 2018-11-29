@@ -1,7 +1,7 @@
 version: 2
 
 workdir: &workdir
-  working_directory: ~/release
+  working_directory: ~/repo
 
 # node8osx: &node8osx
 #   <<: *workdir
@@ -26,9 +26,9 @@ node10linux: &node10linux
 restore_modules_cache: &restore_modules_cache
   restore_cache:
     keys:
-      - release-{{ checksum "yarn.lock" }}
+      - repo-{{ checksum "yarn.lock" }}
       # fallback to using the latest cache if no exact match is found
-      - release-
+      - repo-
 
 # jobinstall: &jobinstall
 #   steps:
@@ -41,7 +41,7 @@ restore_modules_cache: &restore_modules_cache
 #         name: Installing project dependencies
 #         command: pnpm run inst
 #     - save_cache:
-#         key: release-{{ checksum "yarn.lock" }}
+#         key: repo-{{ checksum "yarn.lock" }}
 #         paths: node_modules
 #     - run:
 #         name: Remove node_modules to cleanup workspace
@@ -55,13 +55,16 @@ jobtest: &jobtest
         name: Installing project dependencies
         command: yarn install --prefer-offline || yarn install
     - run:
-        name: Linting your project
-        command: yarn run lint
+        name: Checking and linting
+        command: |-
+           yarn add --dev eslint-config-tunnckocore@next eslint prettier &&
+           yarn scripts lint &&
+           yarn remove eslint-config-tunnckocore eslint prettier
     - run:
         name: Testing your project
-        command: yarn global add nyc@latest && yarn test
+        command: yarn global add nyc && yarn scripts test
     - save_cache:
-        key: release-{{ checksum "yarn.lock" }}
+        key: repo-{{ checksum "yarn.lock" }}
         paths: node_modules
     - run:
         name: Sending test coverage to CodeCov
@@ -107,10 +110,12 @@ jobs:
       - *restore_modules_cache
       - run:
           name: Bundling your awesome project
-          command: yarn run build || echo "No build step."
+          command: yarn scripts build || echo "No build step."
       - run:
           name: Releasing and publishing
-          command: yarn run release || (yarn global add @tunnckocore/release-cli && yarn run release)
+          command: |-
+            yarn global add @tunnckocore/release-cli &&
+            yarn scripts release
 
 workflows:
   version: 2

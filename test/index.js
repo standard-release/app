@@ -1,6 +1,7 @@
+import assert from 'assert';
 import test from 'asia';
-import mod from '../src';
+import mod from '../src/index';
 
-test('todo', (t) => {
-  t.strictEqual(typeof mod, 'function');
+test('todo', () => {
+  assert.strictEqual(typeof mod, 'function');
 });
