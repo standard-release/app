@@ -341,6 +341,11 @@ dedent@^0.7.0:
   resolved "https://registry.yarnpkg.com/dedent/-/dedent-0.7.0.tgz#2495ddbaf6eb874abb0e1be9df22d2e5a544326c"
   integrity sha1-JJXduvbrh0q7Dhvp3yLS5aVEMmw=
 
+deepmerge@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.2.1.tgz#5d3ff22a01c00f645405a2fbc17d0778a1801170"
+  integrity sha512-R9hc1Xa/NOBi9WRVUWg19rl1UB7Tt4kuPd+thNJgFZoxXsTz7ncaPaeIm+40oSGuP33DfMb4sZt1QIGiJzC4EA==
+
 depd@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
@@ -351,7 +356,7 @@ destroy@~1.0.4:
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
 
-detect-next-version@^3.1.0:
+detect-next-version@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/detect-next-version/-/detect-next-version-3.1.1.tgz#85fe0acb13779bffb012723d497465ce8c76c146"
   integrity sha512-DF7rPmtb3zfbGOs+zn+poF/oFQijTPnnpqbRkb1lyrWdUO9Ocb5ltVGRHkLHRDQ7ushOpdtDksljOgP+Wj2lHQ==
@@ -1024,7 +1029,7 @@ p-try@^1.0.0:
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-1.0.0.tgz#cbc79cdbaf8fd4228e13f621f2b1a237c1b207b3"
   integrity sha1-y8ec26+P1CKOE/Yh8rGiN8GyB7M=
 
-parse-commit-message@^3.2.0:
+parse-commit-message@^3.2.0, parse-commit-message@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/parse-commit-message/-/parse-commit-message-3.2.2.tgz#911ab4516c13e11b7ce7ee5bafe815c659c7a66f"
   integrity sha512-8ugSdaYjnJic76DOWOuCE+ASvGDSLRwTnysPnbJmXnOvokPQ0NdJs99dDS6MtgM8bRa14EruzxdqVjF9ix7a6w==
@@ -1090,14 +1095,15 @@ pkg-conf@^2.0.0:
     find-up "^2.0.0"
     load-json-file "^4.0.0"
 
-probot-config@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/probot-config/-/probot-config-0.2.0.tgz#50af0349d37c367e182a06a9dafc7e3b76a6a8b8"
-  integrity sha512-xURFHWnzna2Gphw9LJgI9PTzDKZKxgGWGidfwXKlhP09F226UgxMsA2uMLlG7LEKNsKP1Yx9SAec8tsDYw2lNw==
+probot-config@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/probot-config/-/probot-config-1.0.0.tgz#4da831672fd08dab26fc522b6aee0027095039d0"
+  integrity sha512-5zV1JjvVH0zy67OZcjv36I/sz7AE7gsVSCkn7rHfNw4tndJhVuKDtq0sn78MoPEPazMbqvq5k0WVYz5MM2Ajyg==
   dependencies:
+    deepmerge "^2.2.1"
     js-yaml "^3.10.0"
 
-probot@^7.3.1:
+probot@^7.4.0:
   version "7.4.0"
   resolved "https://registry.yarnpkg.com/probot/-/probot-7.4.0.tgz#96a70148e8a114bcba75fd1a261155a559916cc5"
   integrity sha512-xyvra7baRi8o/KortENZHFae8TZCBHvrKKTVvL1l5DhLBb1mfey+6AM2bxEai5ajDkrKnNiA69aDtb32WO5bRQ==
