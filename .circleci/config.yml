@@ -103,17 +103,6 @@ jobs:
   #   <<: *node10osx
   #   <<: *jobtest
 
-  deploy:
-    <<: *node10linux
-    steps:
-      - checkout
-      - *restore_modules_cache
-      - run:
-          name: Deploying to Now Cloud on standard-release.now.sh
-          command: |-
-            yarn global add now@latest &&
-            yarn scripts deploy
-
   publish:
     <<: *node10linux
     steps:
@@ -154,17 +143,6 @@ workflows:
       #     requires:
       #       - install-node10osx
 
-      # Continuous Deployment to Zeit Now
-      - deploy:
-          requires:
-            # - test-node8osx
-            # - test-node10osx
-            - test-node8linux
-            - test-node10linux
-          filters:
-            branches:
-              only: master
-
       # Release and NPM publish
       # Executed only on master
       - publish:
@@ -173,7 +151,6 @@ workflows:
             # - test-node10osx
             - test-node8linux
             - test-node10linux
-            - deploy
           filters:
             branches:
               only: master
