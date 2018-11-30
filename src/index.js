@@ -1,148 +1,188 @@
-/**
- * @copyright 2017-present, Charlike Mike Reagent <olsten.larck@gmail.com>
- * @license Apache-2.0
- */
+import { applyPlugins, plugins, parse, check } from 'parse-commit-message';
+import detector from 'detect-next-version';
+import getConfig from 'probot-config';
 
-const path = require('path')
-const delay = require('delay')
-const semver = require('semver')
-const handlebars = require('handlebars')
-const detectNext = require('detect-next-version')
-const getConfig = require('./lib/config.js')
-const utils = require('./lib/utils.js')
+import render from './render';
 
-/* eslint-disable no-param-reassign */
+const defaultConfig = {
+  defaultBranch: 'master',
+  interval: 30,
+};
 
-/**
- *
- * @param {*} robot
- */
-module.exports = (robot) => {
+function isCI(val) {
+  return (
+    val.includes('continuous-integration') ||
+    val.includes('circleci') ||
+    val.includes('ci') ||
+    false
+  );
+}
+
+async function delay(secs = 10000) {
+  await new Promise((resolve) => setTimeout(resolve, secs * 1000));
+}
+
+export default function releaseGitHubApp(robot) {
   robot.on('push', async (context) => {
-    // console.log('cc1')
-    // if (releasePublished === true) return
-    console.log('cc2')
-    if (context.payload.ref !== 'refs/heads/master') return
+    const settingsConfig = await getConfig(context, 'new-release.yml');
+    const config = Object.assign({}, defaultConfig, settingsConfig);
 
-    const config = await getConfig(context)
-    const commit = detectChange(context, config)
-    // Check if commit needs GitHub Release,
-    // otherwise the bot should not do anything
-    if (commit.increment) {
-      console.log('cc3')
-      const passed = []
-      const pending = []
-      await release(context, config, { passed, pending })
+    if (context.payload.ref !== `refs/heads/${config.defaultBranch}`) {
+      return;
     }
-  })
-}
 
-/**
- *
- * @param {*} context
- * @param {*} config
- */
-function detectChange (context, config) {
-  const head = context.payload.head_commit
-  const rawCommit = detectNext(head.message, true)
+    const info = await getPkgMeta(context, robot);
 
-  const shortSHA = head.id.slice(0, 7)
-  const repository = context.payload.repository.full_name
-  const link = `https://github.com/${repository}/commit/${shortSHA}`
-  const commit = Object.assign(rawCommit, {
-    anchor: `[${shortSHA}](${link})`,
-    message: head.message,
-    head,
-    link,
-  })
-  console.log('cc4', commit)
-
-  if (commit.increment === 'major' && commit.isBreaking) {
-    return Object.assign(commit, { heading: config.majorHeading })
-  }
-  if (commit.increment === 'patch') {
-    return Object.assign(commit, { heading: config.patchHeading })
-  }
-  if (commit.increment === 'minor') {
-    return Object.assign(commit, { heading: config.minorHeading })
-  }
-
-  return commit
-}
-
-/**
- *
- * @param {*} context
- * @param {*} config
- * @param {*} cache
- */
-async function release (context, config, cache) {
-  if (cache.passed.length && cache.passed.length === cache.pending.length) {
-    return shouldRelease(context, config)
-  }
-
-  // Especially in CircleCI builds are pretty fast
-  // even with tons of deps.. but make sure your cache
-  // is enabled (or correctly configured).
-  // Example: if you all checks ends in 1min,
-  // only 6 requests are made, so don't worry.
-  // The 6req/min is pretty pretty low amount when you have 5000req/hour.
-  await delay(8000)
-
-  const statuses = await context.github.repos.getStatuses(utils.getRepo(context))
-
-  statuses.data.forEach((x) => {
-    const isCIStatus = /(?:travis|circleci)/.test(x.context)
-    const isPending = x.state === 'pending'
-    const isPassing = x.state === 'success'
-
-    if (isPending && isCIStatus && !cache.pending.includes(x.context)) {
-      cache.pending.push(x.context)
+    // If no need for bump, then exit.
+    if (!info || (info && !info.increment)) {
+      robot.log('No need for release publishing');
+      return;
     }
-    if (isPassing && isCIStatus && !cache.passed.includes(x.context)) {
-      cache.passed.push(x.context)
+
+    // pkgMeta is like `{ lastVersion, nextVersion, pkg, increment }`
+    robot.log(info);
+
+    // Delay for 10 seconds, then continue.
+    // Creating release should not be instant, we should wait
+    // until statuses/checks are ready first.
+    await delay(10);
+
+    const status = await ensureStatus(context, { info, config });
+
+    // It's always a 'success' or `true`, if it is true,
+    // then it already created the release from within `ensureStatus`,
+    // Because there it checks recursively every 30 seconds, until success or failure.
+    // If it is failure, it will throw, so we are safe.
+    if (status === 'success') {
+      robot.log(info);
+      await createRelease(context, context.repo({ info }));
     }
-  })
 
-  return release(context, config, cache)
+    // And we are done.
+  });
 }
 
-/**
- *
- * @param {*} context
- * @param {*} config
- */
-function shouldRelease (context, config) {
-  const commit = detectChange(context, config)
+async function getPkgMeta(context, robot) {
+  const pkg = await getPkg(context, robot);
+  if (!pkg) return null;
 
-  if (!commit.increment) {
-    console.log('no creating GitHub release')
-    return false
-  }
+  const result = await context.github.repos.getLatestRelease(context.repo());
+  const { data: commits } = await context.github.repos.getCommits(
+    context.repo({ since: result.data.created_at }),
+  );
 
-  return createRelease(context, config, commit)
+  const allCommitsSinceLastTag = commits
+    .slice(0, -1)
+    .reduce(
+      (acc, commit) =>
+        acc.concat(
+          ...applyPlugins(
+            plugins.concat((cmt) => Object.assign({}, commit, cmt)),
+            check(parse(commit.commit.message)),
+          ),
+        ),
+      [],
+    )
+    .map((commit) =>
+      Object.assign(
+        { repository: context.payload.repository.full_name },
+        commit,
+      ),
+    );
+
+  // const endpoint = (name) => `https://registry.npmjs.org/${name}`;
+  return detector(pkg.name, allCommitsSinceLastTag);
 }
 
-/**
- *
- * @param {*} context
- * @param {*} config
- * @param {*} commit
- */
-async function createRelease (context, config, commit) {
-  const { currentVersion, nextVersion } = await getVersions(context, config, commit)
-  const { owner, repo } = utils.getRepo(context)
+async function getPkg(context, robot) {
+  let pkgData = null;
 
-  const options = {
-    currentVersion,
-    nextVersion,
-    commit,
-    owner,
-    repo,
+  try {
+    pkgData = await context.github.repos.getContent(
+      context.repo({
+        ref: context.payload.ref,
+        path: 'package.json',
+      }),
+    );
+  } catch (err) {
+    robot.log(err);
+    return null;
   }
-  const body = await renderTemplate(context, config, options)
+  // for ensurance, sometimes.. js can be bad boy.
+  if (!pkgData) return null;
 
-  const tagName = `v${nextVersion}`
+  let pkgJSON = null;
+
+  try {
+    pkgJSON = JSON.parse(Buffer.from(pkgData.data.content, 'base64'));
+  } catch (err) {
+    robot.log(err);
+    return null;
+  }
+
+  return pkgJSON;
+}
+
+async function ensureStatus(context, { info, config }) {
+  const status = await getStatus(context);
+  if (status === null) {
+    throw new Error('No CI is detected on that repository.');
+  }
+
+  if (status === 'success') {
+    await createRelease(context, context.repo({ info }));
+    return true;
+  }
+  if (status === 'failure') {
+    throw new Error('The CI statuses are failing, not creating a release.');
+  }
+
+  await delay(config.interval);
+  return ensureStatus(context, { info, config });
+}
+
+async function getStatus(context) {
+  const { data } = await context.github.repos.getCombinedStatusForRef(
+    context.repo({ ref: context.payload.ref }),
+  );
+
+  if (data.state === 'success') {
+    return data.state;
+  }
+
+  // 1. data.state === pending and there is success CI, then we don't care
+  // that there are pending statuses, we continue to release
+  // 2. data.state === failure, then we check if CIs are okey,
+  // if they are okey, then we don't care about the other failing statuses
+
+  const states = {
+    success: [],
+    failure: [],
+    pending: [],
+  };
+
+  data.statuses.forEach((status) => {
+    if (isCI(status.context)) {
+      states[status.state].push(status);
+    }
+  });
+
+  if (states.pending.length > 0) {
+    return 'pending';
+  }
+  if (states.failure.length > 0) {
+    return 'failure';
+  }
+  if (states.success.length > 0) {
+    return 'success';
+  }
+  return null;
+}
+
+async function createRelease(context, { owner, repo, info }) {
+  const [date] = context.payload.head_commit.timestamp.split('T');
+  const body = render(Object.assign({}, { owner, repo, date }, info));
+  const tagName = `v${info.nextVersion}`;
 
   await context.github.repos.createRelease({
     owner,
@@ -152,56 +192,5 @@ async function createRelease (context, config, commit) {
     name: tagName,
     draft: false,
     prerelease: false,
-  })
-
-  console.log('done')
-
-  return true
-}
-
-/**
- *
- * @param {*} context
- * @param {*} config
- * @param {*} commit
- */
-async function getVersions (context, config, commit) {
-  const lastTag = (await context.github.repos.getTags(utils.getRepo(context))).data[0]
-
-  // TODO: Consider what to do when there are no tags. Fallback to npm?
-  const currentVersion = lastTag.name.slice(1)
-
-  console.log('tag commit', lastTag.commit.url)
-
-  const nextVersion = semver.inc(currentVersion, commit.increment)
-  return { currentVersion, nextVersion }
-}
-
-/**
- *
- * @param {*} context
- * @param {*} config
- * @param {*} opts
- */
-async function renderTemplate (context, config, opts) {
-  let template = config.releaseTemplate
-
-  if (typeof config.templatePath === 'string') {
-    const fp = path.resolve(config.templatePath)
-    template = await utils.readFile(fp)
-  }
-
-  const repository = context.payload.repository.full_name
-  const [date] = context.payload.head_commit.timestamp.split('T')
-  const { currentVersion: prev, nextVersion: next } = opts
-  const compareLink = `https://github.com/${repository}/compare/v${prev}...v${next}`
-
-  const locals = Object.assign({}, config.locals, opts, {
-    date,
-    repository,
-    compareLink,
-  })
-
-  console.log('cc5', locals)
-  return handlebars.compile(template)(locals)
+  });
 }

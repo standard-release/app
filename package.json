@@ -1,59 +1,63 @@
 {
-  "private": true,
-  "name": "semantic-release-app",
-  "version": "0.0.0-semantic-release",
-  "description": "testing probot framework for semantic-release as Github App",
-  "repository": "tunnckoCore/semantic-release-app",
-  "author": "Charlike Mike Reagent (https://i.am.charlike.online)",
-  "nspId": "todo",
-  "main": "./src/index.js",
-  "scripts": {
-    "start": "PRIVATE_KEY=$(echo $PRIVATE_KEY | base64 -d) probot run ./src/index.js",
-    "test": "NODE_ENV=test yarn hela test",
-    "precommit": "yarn hela precommit",
-    "commit": "yarn hela commit",
-    "prepublishOnly": "yarn hela protect"
-  },
+  "name": "@standard-release/app",
+  "description": "GitHub App for creating GitHub Releases, following the Conventional Commits and SemVer specifications",
   "license": "Apache-2.0",
-  "licenseStart": 2017,
-  "engines": {
-    "node": ">=8",
-    "npm": ">=5",
-    "yarn": ">=1"
+  "licenseStart": "2017",
+  "scripts": {
+    "now-start": "PRIVATE_KEY=$(echo $PRIVATE_KEY | base64 -d) yarn start",
+    "start": "probot run ./index.js",
+    "docs": "scripts verb",
+    "lint": "scripts eslint '{src,test}/**/*.js' '*.js' --cache --fix --quiet --format codeframe",
+    "test-only": "node -r esm test/index.js",
+    "test": "scripts nyc node test/index.js",
+    "precommit": "scripts lint && scripts test-only",
+    "commit": "scripts dry",
+    "dry": "git add -A && git status --porcelain && scripts gitcommit",
+    "deploy:rm": "now rm -y standard-release-app",
+    "deploy:now": "now && now alias",
+    "deploy": "(yarn deploy:rm && yarn deploy:now) || yarn deploy:now"
   },
-  "files": [
-    "src/"
-  ],
+  "engines": {
+    "node": "^8.10.0 || >=10.13.0"
+  },
   "dependencies": {
-    "dedent": "0.7.0",
-    "delay": "2.0.0",
-    "detect-next-version": "1.1.3",
-    "handlebars": "4.0.11",
-    "js-yaml": "3.10.0",
-    "p-map-series": "1.0.0",
-    "probot": "3.0.2",
-    "semver": "5.4.1",
-    "simple-get": "2.7.0"
+    "detect-next-version": "^3.1.1",
+    "esm": "^3.0.84",
+    "parse-commit-message": "^3.2.2",
+    "probot": "^7.4.0",
+    "probot-config": "^1.0.0"
   },
   "devDependencies": {
-    "eslint": "4.11.0",
-    "eslint-config-tunnckocore": "0.2.0",
-    "hela": "1.3.14",
-    "hela-config-tunnckocore": "2.1.1",
-    "isobject": "3.0.1",
-    "localtunnel": "1.8.3",
-    "mukla": "0.4.9",
-    "nodemon": "1.12.1"
+    "@tunnckocore/scripts": "^1.2.5",
+    "asia": "^1.0.0-rc.25"
   },
-  "keywords": [
-    "automation"
+  "files": [
+    "src",
+    "index.js"
   ],
+  "main": "index.js",
+  "module": "src/index.js",
+  "typings": "src/index.d.ts",
+  "version": "0.15.1",
+  "repository": "standard-release/app",
+  "homepage": "https://github.com/standard-release/app",
+  "author": "Charlike Mike Reagent (https://tunnckocore.com)",
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "renovate": {
+    "extends": "tunnckocore"
+  },
+  "eslintConfig": {
+    "extends": "tunnckocore"
+  },
   "verb": {
     "run": true,
     "toc": {
       "render": true,
       "method": "preWrite",
-      "maxdepth": 3
+      "maxdepth": 4
     },
     "layout": "empty",
     "tasks": [
@@ -61,17 +65,20 @@
     ],
     "related": {
       "list": [
-        "dush",
-        "p-map-series",
-        "execa",
-        "hela",
-        "mri"
-      ],
-      "highlight": "hela"
+        "asia",
+        "docks",
+        "gitcommit",
+        "git-commits-since",
+        "parse-commit-message",
+        "detect-next-version"
+      ]
     },
     "lint": {
       "reflinks": true
     },
-    "reflinks": []
+    "reflinks": [
+      "new-release",
+      "semantic-release"
+    ]
   }
 }

@@ -1,8 +1,10 @@
 {
-  "version": 1,
-  "public": true,
+  "version": 2,
   "name": "standard-release-app",
   "alias": "standard-release",
+  "builds": [
+    { "src": "package.json", "use": "@now/node-server" }
+  ],
   "env": {
     "APP_ID": "@tunnckocore-release-id",
     "NODE_ENV": "production",
