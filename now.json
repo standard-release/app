@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "public": true,
   "alias": "semantic-release-app",
   "env": {
@@ -6,5 +7,18 @@
     "NODE_ENV": "production",
     "PRIVATE_KEY": "@semantic-private-key",
     "WEBHOOK_SECRET": "@semantic-webhook-secret"
+=======
+  "version": 2,
+  "name": "@standard-release/app",
+  "alias": "standard-release",
+  "builds": [
+    { "src": "src/index.js", "use": "@now/node" }
+  ],
+  "env": {
+    "APP_ID": "@tunnckocore-release-id",
+    "NODE_ENV": "production",
+    "PRIVATE_KEY": "@tunnckocore-release-private-key",
+    "WEBHOOK_SECRET": "@tunnckocore-release-webhook-secret"
+>>>>>>> standard-release-app/master
   }
 }
