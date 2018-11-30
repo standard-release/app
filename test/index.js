@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-/**
- * @copyright 2017-present, Charlike Mike Reagent <olsten.larck@gmail.com>
- * @license Apache-2.0
- */
-
-const test = require('mukla')
-const fn = require('../src/index.js')
-
-test('foo bar', () => {
-  test.ok(fn)
-})
-=======
 import assert from 'assert';
 import test from 'asia';
 import mod from '../src/index';
@@ -18,4 +5,3 @@ import mod from '../src/index';
 test('todo', () => {
   assert.strictEqual(typeof mod, 'function');
 });
->>>>>>> standard-release-app/master
