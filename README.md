@@ -144,7 +144,7 @@ Consider showing your [support](#support-the-project) to them. :sparkling_heart:
 
 ## License
 
-Copyright (c) 2018-present, [Charlike Mike Reagent](https://tunnckocore.com) `<mameto2011@gmail.com>` & [contributors](#wonderful-contributors).  
+Copyright (c) 2017-present, [Charlike Mike Reagent](https://tunnckocore.com) `<mameto2011@gmail.com>` & [contributors](#wonderful-contributors).  
 Released under the [Apache-2.0 License][license-url].
 
 <!-- Heading badges -->
@@ -174,7 +174,7 @@ Released under the [Apache-2.0 License][license-url].
 
 [ccommits-url]: https://conventionalcommits.org/
 [ccommits-img]: https://badgen.net/badge/conventional%20commits/v1.0.0/dfb317
-[new-release-url]: https://ghub.io/new-release
+[new-release-url]: https://github.com/apps/standard-release
 [new-release-img]: https://badgen.net/badge/semantically/released/05c5ff
 
 [downloads-weekly-img]: https://badgen.net/npm/dw/@standard-release/app
